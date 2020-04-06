@@ -1,5 +1,9 @@
 {% extends 'base/base.html' %}
-{% block container %}
+{% block sidebar %} {% endblock sidebar %}
+{% block topbar %} {% endblock topbar %}
+{% block footer %} {% endblock footer %}
+{% block content %} {% endblock content %}
+{% block login %}
 <div class="container">
 
   <!-- Outer Row -->
@@ -18,13 +22,13 @@
                   <h1 class="h4 text-gray-900 mb-4">Welcome Back!</h1>
                 </div>
                 <form method="POST" class="user">
-                  <!-- <div class="form-group">
-                    <input type="email" class="form-control form-control-user" id="exampleInputEmail" aria-describedby="emailHelp" placeholder="Enter Email Address...">
+                  {% csrf_token %}
+                  <div class="form-group">
+                    <input type="text" class="form-control form-control-user" id="id_username" name="username" aria-describedby="emailHelp" placeholder="Usuario">
                   </div>
                   <div class="form-group">
-                    <input type="password" class="form-control form-control-user" id="exampleInputPassword" placeholder="Password">
-                  </div> -->
-                  {{ form.as_p }}
+                    <input type="password" class="form-control form-control-user" id="id_password" name="password" placeholder="Contraseña">
+                  </div>
                   <button type="submit" class="btn btn-primary btn-user btn-block">Acceder</button>
 
               </div>
@@ -38,4 +42,4 @@
   </div>
 
 </div>
-{% endblock container %}
+{% endblock login %}

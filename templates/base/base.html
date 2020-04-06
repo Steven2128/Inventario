@@ -21,13 +21,13 @@
 
 </head>
 
-<body id="page-top">
-
+<body id="page-top" class="bg-gradient-primary">
+  {% block sidebar %}
   <!-- Page Wrapper -->
   <div id="wrapper">
     
     <!-- Sidebar -->
-    {% block sidebar %}
+    
     <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
       <!-- Sidebar - Brand -->
@@ -366,7 +366,7 @@
   </div>
   {% endblock footer %}
   <!-- End of Page Wrapper -->
-
+  {% block login %} {% endblock login %}
   <!-- Scroll to Top Button-->
   <a class="scroll-to-top rounded" href="#page-top">
     <i class="fas fa-angle-up"></i>
