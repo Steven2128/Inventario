@@ -20,14 +20,33 @@
               <div class="p-5">
                 <div class="text-center">
                   <h1 class="h4 text-gray-900 mb-4">Welcome Back!</h1>
+                  <small class="text-danger">
+                      {% if form.errors %}
+                        {% for field in form %}
+                            {% if field.errors  %}
+                                {% for error in field.errors %}
+                                    {{ error|escape }}
+                                {% endfor %}
+                            {% endif %}
+                        {% endfor %}
+
+                        {% if form.non_field_errors  %}
+                            {% for error in form.non_field_errors %}
+                                {{ error|escape }}
+                            {% endfor %}
+                        {% endif %}
+                      {% endif %}
+                  </small>
                 </div>
                 <form method="POST" class="user">
                   {% csrf_token %}
                   <div class="form-group">
-                    <input type="text" class="form-control form-control-user" id="id_username" name="username" aria-describedby="emailHelp" placeholder="Usuario">
+                    <input type="text" class="form-control form-control-user" id="id_username" name="username"
+                      aria-describedby="emailHelp" placeholder="Usuario">
                   </div>
                   <div class="form-group">
-                    <input type="password" class="form-control form-control-user" id="id_password" name="password" placeholder="Contraseña">
+                    <input type="password" class="form-control form-control-user" id="id_password" name="password"
+                      placeholder="Contraseña">
                   </div>
                   <button type="submit" class="btn btn-primary btn-user btn-block">Acceder</button>
 
