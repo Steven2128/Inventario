@@ -11,6 +11,6 @@ class CategoriaForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         for field in iter(self.fields):
-            self.field[field].widget.attrs.update({
+            self.fields[field].widget.attrs.update({
                 'class': 'form-control'
             })
