@@ -3,12 +3,12 @@
 {% block content %}
 <form action="" method="post" class="form-inline">
     {% csrf_token %}
-    <div class="col-xl-3 col-md-6 mb-4">
+    <div class="col-lg-8 col-xl-6">
         <div class="card border-left-danger shadow h-100 py-2">
             <div class="card-body">
                 <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
-                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Eliminar
+                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Eliminar
                             {{ obj.descripcion }}</div>
                         <button type="submit" class="btn btn-danger"><i class="fas fa-question-circle mr-1"></i>Si, eliminar</button>
                         <a href="{% url 'categoria_list' %}" class="btn btn-secondary"><span
@@ -20,7 +20,6 @@
                 </div>
             </div>
         </div>
-    </div>
     </div>
 </form>
 {% endblock content %}

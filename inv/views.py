@@ -39,7 +39,7 @@ class CategoriaEdit(LoginRequiredMixin, generic.UpdateView):
 
 class CategoriaDel(LoginRequiredMixin, generic.DeleteView):
     model = Categoria
-    template_name = 'inv/catalogos_del.html'
+    template_name = 'inv/categoria_del.html'
     context_object_name = 'obj'
     success_url = reverse_lazy('categoria_list')
     login_url = 'login'
