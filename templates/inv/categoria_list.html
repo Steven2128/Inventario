@@ -45,7 +45,8 @@
                     <td>{{ item.fecha_creacion|date:"d/m/Y H:i:s" }}</td>
                     <td>{{ item.fecha_modificacion }}</td>
                     <td>
-                        <a href="{% url 'categoria_edit' item.id %}" class="btn btn-warning btn-circle" role="button"><i class="far fa-edit"></i></a>
+                        <a href="{% url 'categoria_edit' item.id %}" class="btn btn-warning btn-circle" role="button"><i
+                                class="far fa-edit"></i></a>
                         <a href="#" class="btn btn-danger btn-circle" role="button"><i class="far fa-trash-alt"></i></a>
                     </td>
                 </tr>
@@ -59,5 +60,25 @@
 {% endblock content %}
 
 {% block js %}
-
+<script>
+    //Call the datatables jquery plugin
+    $(document).ready(function () {
+        $('.table').DataTable({
+            
+            language: {
+                processing: "Procesando...",
+                search: "Buscar:",
+                lengthMenu: "Mostrar _MENU_ registros por página",
+                info: "Mostrando _START_ a _END_ de _TOTAL_ elementos",
+                infoEmpty: "No hay registros disponibles",
+                infoFiltered: "(Filtrado por _MAX_ elementos en total)",
+                zeroRecords: "Nada Encontrado - Lo siento",
+                paginate: {
+                    previous: "Anterior",
+                    next: "Siguiente",
+                },
+            }
+        });
+    });
+</script>
 {% endblock js %}
