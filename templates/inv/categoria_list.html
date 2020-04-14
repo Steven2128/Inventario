@@ -41,11 +41,11 @@
                 <tr>
                     <td>{{ forloop.counter }}</td>
                     <td>{{ item.descripcion }}</td>
-                    <td>{{ item.estado }}</td>
+                    <td>{{ item.estado|yesno:"Activo, Inactivo" }}</td>
                     <td>{{ item.fecha_creacion|date:"d/m/Y H:i:s" }}</td>
                     <td>{{ item.fecha_modificacion }}</td>
                     <td>
-                        <a href="#" class="btn btn-warning btn-circle" role="button"><i class="far fa-edit"></i></a>
+                        <a href="{% url 'categoria_edit' item.id %}" class="btn btn-warning btn-circle" role="button"><i class="far fa-edit"></i></a>
                         <a href="#" class="btn btn-danger btn-circle" role="button"><i class="far fa-trash-alt"></i></a>
                     </td>
                 </tr>
