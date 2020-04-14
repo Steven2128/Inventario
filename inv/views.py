@@ -15,11 +15,23 @@ class CategoriaView(LoginRequiredMixin, generic.ListView):
     login_url = 'login'
 
 
-class categoriaNew(LoginRequiredMixin, generic.CreateView):
+class CategoriaNew(LoginRequiredMixin, generic.CreateView):
     template_name = 'inv/categoria_form.html'
     form_class = CategoriaForm
     login_url = 'login'
 
     def form_valid(self, form):
         form.instance.usuario_creacion = self.request.user
+        return super().form_valid(form)
+
+
+class CategoriaEdit(LoginRequiredMixin, generic.UpdateView):
+    model = Categoria
+    template_name = 'inv/categoria_form.html'
+    form_class = CategoriaForm
+    success_url = reverse_lazy('categoria_list')
+    login_url = 'login'
+
+    def form_valid(self, form):
+        form.instance.usuario_modificacion = self.request.user.id
         return super().form_valid(form)
