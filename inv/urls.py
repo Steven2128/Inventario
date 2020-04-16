@@ -10,4 +10,5 @@ urlpatterns = [
     path('categorias/delete/<int:pk>', views.CategoriaDel.as_view(), name="categoria_del"),
     #Subcategorías CRUD
     path('subcategorias/', views.SubCategoriaView.as_view(), name="subcategoria_list"),
+    path('subcategorias/new', views.SubCategoriaNew.as_view(), name="subcategoria_new"),
 ]
