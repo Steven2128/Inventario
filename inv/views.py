@@ -62,3 +62,15 @@ class SubCategoriaNew(LoginRequiredMixin, generic.CreateView):
     def form_valid(self, form):
         form.instance.usuario_creacion = self.request.user
         return super().form_valid(form)
+
+
+class SubCategoriaEdit(LoginRequiredMixin, generic.UpdateView):
+    model = SubCategoria
+    template_name = 'inv/subcategoria_form.html'
+    form_class = SubCategoriaForm
+    success_url = reverse_lazy('subcategoria_list')
+    login_url = 'login'
+
+    def form_valid(self, form):
+        form.instance.usuario_modificacion = self.request.user.id
+        return super().form_valid(form)
