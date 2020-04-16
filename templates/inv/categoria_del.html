@@ -11,7 +11,7 @@
                         <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Eliminar
                             {{ obj.descripcion }}</div>
                         <button type="submit" class="btn btn-danger"><i class="fas fa-question-circle mr-1"></i>Si, eliminar</button>
-                        <a href="{% url 'categoria_list' %}" class="btn btn-secondary"><span
+                        <a href="{{ request.META.HTTP_REFERER }}" class="btn btn-secondary"><span
                                 class="fa fa-undo mr-1"></span>Cancelar</a>
                     </div>
                     <div class="col-auto">
