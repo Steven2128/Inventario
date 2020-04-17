@@ -23,3 +23,13 @@ class SubCategoria(ClaseModelo):
     class Meta:
         verbose_name_plural = 'Sub Categorias'
         unique_together = ('categoria', 'descripcion')
+
+
+class Marca(ClaseModelo):
+    descripcion = models.CharField(max_length=100, unique=True)
+
+    def __str__(self):
+        return self.descripcion
+
+    class Meta:
+        verbose_name_plural = 'Marcas'
