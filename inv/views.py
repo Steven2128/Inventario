@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views import generic
 from django.urls import reverse_lazy
 
@@ -113,3 +113,18 @@ class MarcaEdit(LoginRequiredMixin, generic.UpdateView):
     def form_valid(self, form):
         form.instance.usuario_modificacion = self.request.user.id
         return super().form_valid(form)
+
+
+def marca_inactivar(request, id):
+    marca = Marca.objects.filter(pk=id).first()
+    contexto = {}
+    if not marca:
+        return redirect('marca_list')
+
+    if request.method == 'GET':
+        contexto = {'obj':marca}
+    else:
+        marca.estado = False
+        marca.save()
+        return redirect('marca_list')
+    return render(request, 'inv/categoria_del.html', contexto)
