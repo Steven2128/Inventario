@@ -33,3 +33,13 @@ class Marca(ClaseModelo):
 
     class Meta:
         verbose_name_plural = 'Marcas'
+
+
+class UnidadMedida(ClaseModelo):
+    descripcion = models.CharField(max_length=100, unique=True)
+
+    def __str__(self):
+        return self.descripcion
+
+    class Meta:
+        verbose_name_plural = 'Unidades de medidas'

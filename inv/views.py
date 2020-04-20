@@ -1,11 +1,11 @@
 from django.shortcuts import render, redirect
 from django.views import generic
 from django.urls import reverse_lazy
-
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 
-from .models import Categoria, SubCategoria, Marca
-from .forms import CategoriaForm, SubCategoriaForm, MarcaForm
+from .models import Categoria, SubCategoria, Marca, UnidadMedida
+from .forms import CategoriaForm, SubCategoriaForm, MarcaForm, UnidadMedidaForm
 
 
 class CategoriaView(LoginRequiredMixin, generic.ListView):
@@ -114,17 +114,56 @@ class MarcaEdit(LoginRequiredMixin, generic.UpdateView):
         form.instance.usuario_modificacion = self.request.user.id
         return super().form_valid(form)
 
-
+@login_required 
 def marca_inactivar(request, id):
-    marca = Marca.objects.filter(pk=id).first()
-    contexto = {}
-    if not marca:
-        return redirect('marca_list')
+    model = Marca.objects.filter(pk=id).first() 
+    if request.method == 'GET': 
+        if model.estado ==True: 
+            model.estado = False 
+        else: 
+            model.estado = True 
+        model.save() 
+    return redirect('marca_list')
 
+
+class UnidadMedidaView(LoginRequiredMixin, generic.ListView):
+    model = UnidadMedida
+    template_name = 'inv/um_list.html'
+    context_object_name = 'obj'
+    login_url = 'login'
+
+
+class UnidadMedidaNew(LoginRequiredMixin, generic.CreateView):
+    template_name = 'inv/um_form.html'
+    form_class = UnidadMedidaForm
+    success_url = reverse_lazy('um_list')
+    login_url = 'login'
+
+    def form_valid(self, form):
+        form.instance.usuario_creacion = self.request.user
+        return super().form_valid(form)
+
+
+class UnidadMedidaEdit(LoginRequiredMixin, generic.UpdateView):
+    model = UnidadMedida
+    template_name = 'inv/um_form.html'
+    form_class = UnidadMedidaForm
+    success_url = reverse_lazy('um_list')
+    login_url = 'login'
+
+    def form_valid(self, form):
+        form.instance.usuario_modificacion = self.request.user.id
+        return super().form_valid(form)
+
+@login_required
+def u_m_inactivar(request, id):
+    model = UnidadMedida.objects.filter(pk=id).first()
+        
     if request.method == 'GET':
-        contexto = {'obj':marca}
-    else:
-        marca.estado = False
-        marca.save()
-        return redirect('marca_list')
-    return render(request, 'inv/categoria_del.html', contexto)
+        if model.estado ==True:
+            model.estado = False
+        else:
+            model.estado = True
+        model.save()
+    return redirect('um_list')
+
