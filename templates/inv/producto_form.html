@@ -6,7 +6,7 @@
         <form action="{% url 'producto_new' %}" method="post" class="form-inline">
         {% endif %}
             {% csrf_token %}
-            <div class="col-lg-8 col-xl-6">
+            <div class="col-xl-12 col-md-12 mb-12">
                 {% if object %}
                 <div class="card border-left-warning shadow h-100 py-2">
                 {% else %}

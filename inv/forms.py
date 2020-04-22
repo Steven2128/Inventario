@@ -4,8 +4,8 @@ from .models import Categoria, SubCategoria, Marca, UnidadMedida, Producto
 class CategoriaForm(forms.ModelForm):
     class Meta:
         model = Categoria
-        fields = ['descripcion', 'estado']
-        labels = {'descripcion': 'Descripción de la categoría', 'estado': 'Estado'}
+        fields = ['descripcion']
+        labels = {'descripcion': 'Descripción de la categoría'}
         widget = {'descripcion': forms.TextInput()}
 
     def __init__(self, *args, **kwargs):
@@ -22,8 +22,8 @@ class SubCategoriaForm(forms.ModelForm):
         )
     class Meta:
         model = SubCategoria
-        fields = ['categoria', 'descripcion', 'estado']
-        labels = {'descripcion': 'Subcategoría', 'estado': 'Estado'}
+        fields = ['categoria', 'descripcion']
+        labels = {'descripcion': 'Subcategoría'}
         widget = {'descripcion': forms.TextInput()}
 
     def __init__(self, *args, **kwargs):
@@ -38,8 +38,8 @@ class SubCategoriaForm(forms.ModelForm):
 class MarcaForm(forms.ModelForm):
     class Meta:
         model = Marca
-        fields = ['descripcion', 'estado']
-        labels = {'descripcion': 'Descripcion de la marca', 'estado': 'Estado'}
+        fields = ['descripcion']
+        labels = {'descripcion': 'Descripcion de la marca'}
         widgets = {'descripcion': forms.TextInput()}
 
     def __init__(self, *args, **kwargs):
@@ -53,9 +53,9 @@ class MarcaForm(forms.ModelForm):
 class UnidadMedidaForm(forms.ModelForm):
     class Meta:
         model = UnidadMedida
-        fields = ['descripcion', 'estado']
+        fields = ['descripcion']
         labels = {
-            'descripcion': 'Descripcion de la unidad de medida', 'estado': 'Estado'
+            'descripcion': 'Descripcion de la unidad de medida'
         }
         widgets = {'descripcion': forms.TextInput()}
 
@@ -69,7 +69,7 @@ class UnidadMedidaForm(forms.ModelForm):
 class ProdutoForm(forms.ModelForm):
     class Meta:
         model = Producto
-        fields = ['codigo', 'codigo_barra', 'descripcion', 'estado',
+        fields = ['codigo', 'codigo_barra', 'descripcion',
         'precio', 'existencia', 'ultima_compra', 'marca', 
         'subcategoria', 'unidad_medida']
 
