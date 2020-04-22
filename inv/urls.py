@@ -23,4 +23,9 @@ urlpatterns = [
     path('um/new', views.UnidadMedidaNew.as_view(), name="um_new"),
     path('um/edit/<int:pk>', views.UnidadMedidaEdit.as_view(), name="um_edit"),
     path('um/inactivar/<int:id>', views.u_m_inactivar, name="um_inactivar"),
+    #Productos CRUD
+    path('productos/', views.ProductoView.as_view(), name="producto_list"),
+    path('productos/new', views.ProductoNew.as_view(), name="producto_new"),
+    path('productos/edit/<int:pk>', views.ProductoEdit.as_view(), name="producto_edit"),
+    path('productos/inactivar', views.producto_inactivar, name="producto_inactivar"),
 ]
