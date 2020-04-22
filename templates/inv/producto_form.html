@@ -1,50 +1,40 @@
-{% extends 'base/base.html' %}
-
-{% block content %}
-<form action="" method="post" class="form-inline">
-    {% csrf_token %}
-    <div class="col-lg-8 col-xl-6">
+<div class="modal-dialog modal-lg">
+    <div class="modal-content">
         {% if object %}
-        <div class="card border-left-warning shadow h-100 py-2">
+        <form action="{% url 'producto_edit' object.pk %}" method="post" class="form-inline">
         {% else %}
-        <div class="card border-left-success shadow h-100 py-2">
+        <form action="{% url 'producto_new' %}" method="post" class="form-inline">
         {% endif %}
-            <div class="card-body">
-                <div class="row no-gutters align-items-center">
-                    <div class="col mr-2">
-                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                            {% if object %}Editar{% else %}Nuevo{% endif %} Producto</div>
-                        <div class="dropdown-divider"></div>
-                        <div class="row">
-                            <div class="col-9">
-                                <div class="input-group"><input type="text" name="descripcion" id="id_descripcion"
-                                        class="form-control" maxlength="100" placeholder="Descripcion" 
-                                        {% if object %} value="{{ object.descripcion }}" {% endif %} required></div>
-                            </div>
-                            <div class="col-3">
-                                <div class="form-group">
-                                    <label for="id_estado">Estado</label>
-                                    <input type="checkbox" name="estado" id="id_estado" class="ml-2" 
-                                    {% if object.estado is True %} checked {% endif %}">
+            {% csrf_token %}
+            <div class="col-lg-8 col-xl-6">
+                {% if object %}
+                <div class="card border-left-warning shadow h-100 py-2">
+                {% else %}
+                <div class="card border-left-success shadow h-100 py-2">
+                {% endif %}
+                <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                    {% if object %}Editar{% else %}Nuevo{% endif %} Producto</div>
+                                <div class="dropdown-divider"></div>
+                                <div class="row">
+                                    {{ form.as_p }}
                                 </div>
-                            </div>
-                        </div>
-                        <div class="dropdown-divider"></div>
-                        <div class="row">
-                            <div class="col">
-                                <button type="submit" class="btn btn-success"><span
-                                        class="fa fa-save mr-1"></span>Guardar</button>
-                                <a href="{% url 'marca_list' %}" class="btn btn-danger"><span
-                                        class="fa fa-undo mr-1"></span>Cancelar</a>
+                                <div class="dropdown-divider"></div>
+                                <div class="row">
+                                    <div class="col">
+                                        <button type="submit" class="btn btn-success"><span
+                                                class="fa fa-save mr-1"></span>Guardar</button>
+                                        <a href="{% url 'marca_list' %}" class="btn btn-danger"><span
+                                                class="fa fa-undo mr-1"></span>Cancelar</a>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </form>
     </div>
-</form>
-{% endblock content %}
-
-{% block js %}
-{% endblock js %}
+</div>
