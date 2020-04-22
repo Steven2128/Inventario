@@ -377,7 +377,7 @@
   <a class="scroll-to-top rounded" href="#page-top">
     <i class="fas fa-angle-up"></i>
   </a>
-
+  <div class="modal fade" id="popup"></div>
 
   <!-- Bootstrap core JavaScript-->
   <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
@@ -393,6 +393,26 @@
   <script src="{% static 'vendor/datatables/jquery.dataTables.min.js' %}"></script>
   <script src="{% static 'vendor/datatables/dataTables.bootstrap4.min.js' %}"></script>
   {% block js %} {% endblock js %}
+
+  {% block control_modal %}
+  <script>
+    function abrir_modal(url){
+      $("#popup").load(url, function(){
+        $(this).modal({
+          backdrop: 'static',
+          keyboard: false
+        })
+        $(this).modal('show');
+      });
+      return false;
+    }
+
+    function cerrar_modal(){
+      $("#popup").modal('hide');
+      return false;
+    }
+  </script>
+  {% endblock control_modal %}
 </body>
 
 </html>
