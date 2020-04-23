@@ -398,7 +398,6 @@
   <script src="{% static 'vendor/datatables/jquery.dataTables.min.js' %}"></script>
   <script src="{% static 'vendor/datatables/dataTables.bootstrap4.min.js' %}"></script>
   <script src="{% static 'vendor/jquery_confirm/jquery-confirm.min.js' %}"></script>
-  {% block js %} {% endblock js %}
 
   {% block control_modal %}
   <script>
@@ -417,8 +416,18 @@
       $("#popup").modal('hide');
       return false;
     }
+
+    function mensaje(msg, color='green'){
+      $.alert({
+        title: '',
+        theme: 'Material',
+        type: color,
+        content: msg
+      });
+    }
   </script>
   {% endblock control_modal %}
+  {% block js %} {% endblock js %}
 </body>
 
 </html>
