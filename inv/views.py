@@ -1,6 +1,9 @@
 from django.shortcuts import render, redirect
 from django.views import generic
 from django.urls import reverse_lazy
+
+from django.contrib import messages
+
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 
@@ -119,10 +122,13 @@ def marca_inactivar(request, id):
     model = Marca.objects.filter(pk=id).first() 
     if request.method == 'GET': 
         if model.estado ==True: 
-            model.estado = False 
+            model.estado = False
+            messages.success(request, 'Marca inactivada')
         else: 
-            model.estado = True 
-        model.save() 
+            model.estado = True
+            messages.success(request, 'Marca activada')
+        model.save()
+        
     return redirect('marca_list')
 
 
@@ -162,8 +168,10 @@ def u_m_inactivar(request, id):
     if request.method == 'GET':
         if model.estado ==True:
             model.estado = False
+            messages.success(request, 'Unidad de medida inactivada')
         else:
             model.estado = True
+            messages.success(request, 'Unidad de medida inactivada')
         model.save()
     return redirect('um_list')
 
@@ -205,8 +213,10 @@ def producto_inactivar(request, id):
     if request.method == 'GET':
         if model.estado ==True:
             model.estado = False
+            messages.success(request, 'Producto inactivado')
         else:
             model.estado = True
+            messages.success(request, 'Producto inactivado')
         model.save()
     return redirect('producto_list')
     
