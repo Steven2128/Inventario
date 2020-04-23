@@ -13,7 +13,7 @@
             </a>
             <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
                 <div class="dropdown-header">Acciones</div>
-                <a class="dropdown-item" href="{% url 'producto_new' %}"><i class="far fa-calendar-plus"></i>Nuevo</a>
+                <a class="dropdown-item" onclick="abrir_modal('{% url 'producto_new' %}')" href="#"><i class="far fa-calendar-plus"></i>Nuevo</a>
                 <a class="dropdown-item" href="#">Another action</a>
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="#">Something else here</a>
@@ -49,12 +49,12 @@
                     <td>{{ item.existencia }}</td>
                     <td>{{ item.marca }}</td>
                     <td>{{ item.unidad_medida }}</td>
-                    <td>{{ item.estado }}</td>
+                    <td>{{ item.estado|yesno:"Activo, Inactivo" }}</td>
                     <td>
-                        <a href="{% url 'producto_edit' item.id %}" class="btn btn-warning btn-circle" role="button"><i
+                        <a href="#" onclick="abrir_modal('{% url 'producto_edit' item.id %}')" class="btn btn-warning btn-circle" role="button"><i
                                 class="far fa-edit"></i></a>
                         {% if item.estado == True %}
-                            <a href="{% url 'producto_inactivar' item.id %}" class="btn btn-danger btn-circle" role="button">
+                            <a href="{% url 'producto_inactivar' item.id %}"  class="btn btn-danger btn-circle" role="button">
                                 <i class="far fa-thumbs-down"></i>
                             </a>
                         {% else %}
