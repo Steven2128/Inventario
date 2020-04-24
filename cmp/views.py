@@ -14,7 +14,6 @@ class ProveedorView(LoginRequiredMixin, ListView):
     model = Proveedor
     template_name = 'cmp/proveedor_list.html'
     context_object_name = 'obj'
-    login_url = 'login'
 
 
 class ProveedorNew(LoginRequiredMixin, CreateView):
@@ -22,7 +21,6 @@ class ProveedorNew(LoginRequiredMixin, CreateView):
     template_name = 'cmp/proveedor_form.html'
     form_class = ProveedorForm
     success_url = reverse_lazy('proveedor_list')
-    login_url = 'login'
 
     def form_valid(self, form):
         form.instance.usuario_creacion = self.request.user
@@ -34,7 +32,6 @@ class ProveedorEdit(LoginRequiredMixin, UpdateView):
     template_name = 'cmp/proveedor_form.html'
     form_class = ProveedorForm
     success_url = reverse_lazy('proveedor_list')
-    login_url = 'login'
 
     def form_valid(self, form):
         form.instance.usuario_modificacion = self.request.user.id

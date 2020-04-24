@@ -16,7 +16,6 @@ class CategoriaView(LoginRequiredMixin, PermissionRequiredMixin, generic.ListVie
     model = Categoria
     template_name = 'inv/categoria_list.html'
     context_object_name = 'obj'
-    login_url = 'login'
 
 
 class CategoriaNew(LoginRequiredMixin, PermissionRequiredMixin, SuccessMessageMixin, generic.CreateView):
@@ -24,7 +23,6 @@ class CategoriaNew(LoginRequiredMixin, PermissionRequiredMixin, SuccessMessageMi
     form_class = CategoriaForm
     success_message = 'Categoría creada exitosamente!'
     success_url = reverse_lazy('categoria_list')
-    login_url = 'login'
 
     def form_valid(self, form):
         form.instance.usuario_creacion = self.request.user
@@ -38,7 +36,6 @@ class CategoriaEdit(LoginRequiredMixin, PermissionRequiredMixin, SuccessMessageM
     form_class = CategoriaForm
     success_message = 'Categoría actualizada exitosamente!'
     success_url = reverse_lazy('categoria_list')
-    login_url = 'login'
 
     def form_valid(self, form):
         form.instance.usuario_modificacion = self.request.user.id
@@ -51,7 +48,6 @@ class CategoriaDel(LoginRequiredMixin, PermissionRequiredMixin, generic.DeleteVi
     template_name = 'inv/categoria_del.html'
     context_object_name = 'obj'
     success_url = reverse_lazy('categoria_list')
-    login_url = 'login'
 
 
 class SubCategoriaView(LoginRequiredMixin, PermissionRequiredMixin, generic.ListView):
@@ -59,7 +55,6 @@ class SubCategoriaView(LoginRequiredMixin, PermissionRequiredMixin, generic.List
     model = SubCategoria
     template_name = 'inv/subcategoria_list.html'
     context_object_name = 'obj'
-    login_url = 'login'
 
 
 class SubCategoriaNew(LoginRequiredMixin, PermissionRequiredMixin, SuccessMessageMixin, generic.CreateView):
@@ -69,7 +64,6 @@ class SubCategoriaNew(LoginRequiredMixin, PermissionRequiredMixin, SuccessMessag
     success_message = 'Subcategoría creada exitosamente!'
     success_url = reverse_lazy('subcategoria_list')
     form_class = SubCategoriaForm
-    login_url = 'login'
 
     def form_valid(self, form):
         form.instance.usuario_creacion = self.request.user
@@ -83,7 +77,6 @@ class SubCategoriaEdit(LoginRequiredMixin, PermissionRequiredMixin, SuccessMessa
     form_class = SubCategoriaForm
     success_message = 'Subcategoría actualizada exitosamente!'
     success_url = reverse_lazy('subcategoria_list')
-    login_url = 'login'
 
     def form_valid(self, form):
         form.instance.usuario_modificacion = self.request.user.id
@@ -96,7 +89,6 @@ class SubCategoriaDel(LoginRequiredMixin, PermissionRequiredMixin, generic.Delet
     template_name = 'inv/categoria_del.html'
     context_object_name = 'obj'
     success_url = reverse_lazy('subcategoria_list')
-    login_url = 'login'
 
 
 class MarcaView(LoginRequiredMixin, PermissionRequiredMixin, generic.ListView):
@@ -104,7 +96,6 @@ class MarcaView(LoginRequiredMixin, PermissionRequiredMixin, generic.ListView):
     model = Marca
     template_name = 'inv/marca_list.html'
     context_object_name = 'obj'
-    login_url = 'login'
 
 
 class MarcaNew(LoginRequiredMixin, PermissionRequiredMixin, SuccessMessageMixin, generic.CreateView):
@@ -114,7 +105,6 @@ class MarcaNew(LoginRequiredMixin, PermissionRequiredMixin, SuccessMessageMixin,
     form_class = MarcaForm
     success_message = 'Marca creada exitosamente!'
     success_url = reverse_lazy('marca_list')
-    login_url = 'login'
 
     def form_valid(self, form):
         form.instance.usuario_creacion = self.request.user
@@ -128,7 +118,6 @@ class MarcaEdit(LoginRequiredMixin, PermissionRequiredMixin, SuccessMessageMixin
     form_class = MarcaForm
     success_message = 'Marca actualizada exitosamente!'
     success_url = reverse_lazy('marca_list')
-    login_url = 'login'
 
     def form_valid(self, form):
         form.instance.usuario_modificacion = self.request.user.id
@@ -152,7 +141,6 @@ class UnidadMedidaView(LoginRequiredMixin, PermissionRequiredMixin, generic.List
     model = UnidadMedida
     template_name = 'inv/um_list.html'
     context_object_name = 'obj'
-    login_url = 'login'
 
 
 class UnidadMedidaNew(LoginRequiredMixin, PermissionRequiredMixin, SuccessMessageMixin, generic.CreateView):
@@ -161,7 +149,6 @@ class UnidadMedidaNew(LoginRequiredMixin, PermissionRequiredMixin, SuccessMessag
     form_class = UnidadMedidaForm
     success_message = 'Unidad de medida creada exitosamente!'
     success_url = reverse_lazy('um_list')
-    login_url = 'login'
 
     def form_valid(self, form):
         form.instance.usuario_creacion = self.request.user
@@ -175,7 +162,6 @@ class UnidadMedidaEdit(LoginRequiredMixin, PermissionRequiredMixin, SuccessMessa
     form_class = UnidadMedidaForm
     success_message = 'Unidad de medida actualizada exitosamente!'
     success_url = reverse_lazy('um_list')
-    login_url = 'login'
 
     def form_valid(self, form):
         form.instance.usuario_modificacion = self.request.user.id
@@ -199,7 +185,6 @@ class ProductoView(LoginRequiredMixin, PermissionRequiredMixin, generic.ListView
     model = Producto
     template_name = 'inv/product_list.html'
     context_object_name = 'obj'
-    login_url = 'login'
 
 
 class ProductoNew(LoginRequiredMixin, PermissionRequiredMixin, SuccessMessageMixin, generic.CreateView):
@@ -209,7 +194,6 @@ class ProductoNew(LoginRequiredMixin, PermissionRequiredMixin, SuccessMessageMix
     form_class = ProdutoForm
     success_message = 'Producto creado exitosamente!'
     success_url = reverse_lazy('producto_list')
-    login_url = 'login'
 
     def form_valid(self, form):
         form.instance.usuario_creacion = self.request.user
@@ -223,7 +207,6 @@ class ProductoEdit(LoginRequiredMixin, PermissionRequiredMixin, SuccessMessageMi
     form_class = ProdutoForm
     success_message = 'Producto actualizado exitosamente!'
     success_url = reverse_lazy('producto_list')
-    login_url = 'login'
 
     def form_valid(self, form):
         form.instance.usuario_modificacion = self.request.user.id
