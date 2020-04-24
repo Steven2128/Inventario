@@ -4,10 +4,8 @@ from django.urls import reverse_lazy
 
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.contrib.auth.decorators import login_required, permission_required
-from django.http import HttpResponse
-import json
 
-from .models import Proveedor
+from .models import Proveedor, ComprasEnc, ComprasDet
 from .forms import ProveedorForm
 
 class ProveedorView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
@@ -53,3 +51,11 @@ def proveedor_inactivar(request, id):
             model.estado = True
         model.save()
     return redirect('proveedor_list')
+
+
+class ComprasView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
+    model = ComprasEnc
+    template_name = 'cmp/compras_list.html'
+    context_object_name = 'obj'
+    permission_required = 'cmp.view_comprasenc'
+
