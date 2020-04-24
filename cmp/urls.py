@@ -9,4 +9,5 @@ urlpatterns = [
     path('proveedores/inactivar/<int:id>', views.proveedor_inactivar, name='proveedor_inactivar'),
     #Compras CRUD
     path('compras/', views.ComprasView.as_view(), name='compras_list'),
+    path('compras/new', views.compras, name='compras_new'),
 ]
