@@ -4,7 +4,7 @@ from django.urls import reverse_lazy
 
 from django.contrib.messages.views import SuccessMessageMixin
 
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 
 from .models import Categoria, SubCategoria, Marca, UnidadMedida, Producto
@@ -123,7 +123,8 @@ class MarcaEdit(LoginRequiredMixin, PermissionRequiredMixin, SuccessMessageMixin
         form.instance.usuario_modificacion = self.request.user.id
         return super().form_valid(form)
 
-@login_required 
+@login_required
+@permission_required('inv.change_marca')
 def marca_inactivar(request, id):
     model = Marca.objects.filter(pk=id).first() 
     if request.method == 'GET': 
@@ -168,6 +169,7 @@ class UnidadMedidaEdit(LoginRequiredMixin, PermissionRequiredMixin, SuccessMessa
         return super().form_valid(form)
 
 @login_required
+@permission_required('inv.change_unidadmedida')
 def u_m_inactivar(request, id):
     model = UnidadMedida.objects.filter(pk=id).first()
         
@@ -213,6 +215,7 @@ class ProductoEdit(LoginRequiredMixin, PermissionRequiredMixin, SuccessMessageMi
         return super().form_valid(form)
 
 @login_required
+@permission_required('inv.change_producto')
 def producto_inactivar(request, id):
     model = Producto.objects.filter(pk=id).first()
         

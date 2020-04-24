@@ -2,21 +2,23 @@ from django.shortcuts import render, redirect
 from django.views.generic import CreateView, UpdateView, ListView, DeleteView
 from django.urls import reverse_lazy
 
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.contrib.auth.decorators import login_required, permission_required
 from django.http import HttpResponse
 import json
 
 from .models import Proveedor
 from .forms import ProveedorForm
 
-class ProveedorView(LoginRequiredMixin, ListView):
+class ProveedorView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
+    permission_required = 'cmp.view_proveedor'
     model = Proveedor
     template_name = 'cmp/proveedor_list.html'
     context_object_name = 'obj'
 
 
-class ProveedorNew(LoginRequiredMixin, CreateView):
+class ProveedorNew(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
+    permission_required = 'cmp.add_proveedor'
     model = Proveedor
     template_name = 'cmp/proveedor_form.html'
     form_class = ProveedorForm
@@ -27,7 +29,8 @@ class ProveedorNew(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
 
-class ProveedorEdit(LoginRequiredMixin, UpdateView):
+class ProveedorEdit(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
+    permission_required = 'cmp.change_proveedor'
     model = Proveedor
     template_name = 'cmp/proveedor_form.html'
     form_class = ProveedorForm
@@ -39,6 +42,7 @@ class ProveedorEdit(LoginRequiredMixin, UpdateView):
 
 
 @login_required
+@permission_required('cmp.change_proveedor')
 def proveedor_inactivar(request, id):
     model = Proveedor.objects.filter(pk=id).first()
         
