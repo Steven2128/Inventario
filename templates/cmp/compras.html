@@ -1,7 +1,8 @@
 {% extends 'base/base.html' %}
 {% block css %}
 <style>
-    #id_sub_total_detalle, #id_total_detalle:focus{
+    #id_sub_total_detalle, #id_total_detalle,
+    #id_sub_total, #id_descuento, #id_total:focus{
         box-shadow: none;
     }
 </style>
@@ -221,6 +222,19 @@
         $('#id_cantidad_detalle, #id_precio_detalle, #id_descuento_detalle').change(function(){
             calcular_detalle();
         });
+
+        /* Validar Envío de Detalle */
+        $('#frmCompras').submit(function (e){
+            if($('#id_total_detalle').val()==0 || $('#id_id_producto').val()==0){
+                e.preventDefault();
+                $.alert({
+                    type:'red',
+                    title: '',
+                    content: 'No ha agregado producto o está sin cantidades'
+                })
+            }
+        });
+
     });
     
     function selectProducto(id, descripcion){
