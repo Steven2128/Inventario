@@ -167,3 +167,15 @@ def compras(request, compra_id=None):
         return redirect('compras_edit', compra_id=compra_id)
 
     return render(request, template_name, contexto)
+
+
+class CompraDetDel(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
+    permission_required = 'cmp.delete_comprasdet'
+    model = ComprasDet
+    template_name = 'cmp/compras_det_del.html'
+    context_object_name = 'obj'
+
+    def get_success_url(self):
+        compra_id = self.kwargs['compra_id']
+        return reverse_lazy('compras_edit', kwargs={'compra_id': compra_id})
+
