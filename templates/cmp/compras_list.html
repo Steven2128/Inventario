@@ -46,7 +46,7 @@
                     <td>{{ item.sub_total }}</td>
                     <td>{{ item.estado|yesno:"Activo, Inactivo" }}</td>
                     <td>
-                        <a href="#" class="btn btn-warning btn-circle" role="button"><i
+                        <a href="{% url 'compras_edit' item.id %}" class="btn btn-warning btn-circle" role="button"><i
                                 class="far fa-edit"></i></a>
                     </td>
                 </tr>

@@ -51,11 +51,11 @@ class ComprasDet(ClaseModelo):
     costo = models.FloatField(default=0)
 
     def __str__(self):
-        return self.producto
+        return '{}, {}'.format(self.producto, self.compra)
 
     def save(self):
         self.sub_total = float(float(int(self.cantidad)) * float(self.precio_prv))
-        self.total = self.sub_total - self.descuento
+        self.total = self.sub_total - float(self.descuento)
         super(ComprasDet, self).save()
 
     class Meta:
