@@ -1,4 +1,11 @@
 {% extends 'base/base.html' %}
+{% block css %}
+<style>
+    #id_sub_total_detalle, #id_total_detalle:focus{
+        box-shadow: none;
+    }
+</style>
+{% endblock css %}
 {% block content %}
     <form method="post" id="frmCompras">
         {% csrf_token %}
@@ -51,7 +58,7 @@
                                                     {{ form_enc.sub_total }}
                                                 </div>
                                             </div>
-                                            <div class="row">
+                                            <div class="row mt-2">
                                                 <div class="col">
                                                     <label for="descuento">Descuento:</label>
                                                 </div>
@@ -59,7 +66,7 @@
                                                     {{ form_enc.descuento }}
                                                 </div>
                                             </div>
-                                            <div class="row">
+                                            <div class="row mt-2">
                                                 <div class="col">
                                                     <label for="total">Total:</label>
                                                 </div>
@@ -88,7 +95,7 @@
                                                             <td>{{ forloop.counter }}</td>
                                                             <td>{{ item.descripcion }}</td>
                                                             <td>
-                                                                <button type="button" class="btn btn-warning btn-circle"><i class="fas fa-shopping-cart"></i></button>
+                                                                <button type="button" onclick="selectProducto({{ item.id }}, '{{ item.descripcion }}')" class="btn btn-warning btn-circle"><i class="fas fa-shopping-cart"></i></button>
                                                             </td>
                                                         </tr>
                                                     {% endfor %}
@@ -122,14 +129,14 @@
                                     <div class="form-group row">
                                         <label for="id_sub_total_detalle" class="col-sm-2 col-form-label">Sub Total:</label>
                                         <div class="col-sm-4">
-                                            <input type="text" readonly name="id_sub_total_detalle" id="id_sub_total_detalle" value="00" class="form-control-plaintext" required>
+                                            <input type="text" readonly name="id_sub_total_detalle" id="id_sub_total_detalle" value="00" class="form-control" required>
                                         </div>
                                         <label for="id_total_detalle" class="col-sm-2 col-form-label">Total:</label>
                                         <div class="col-sm-3">
-                                            <input type="text" readonly name="id_total_detalle" id="id_total_detalle" value="00" class="form-control-plaintext" required>
+                                            <input type="text" readonly name="id_total_detalle" id="id_total_detalle" value="00" class="form-control" required>
                                         </div>
                                         <div class="col-sm-1">
-                                            <button type="button" class="bnt btn-sm"><i class="fa fa-minus-circle" aria-hidden="true"></i></button>
+                                            <button type="button" onclick="clear_detail()" class="bnt btn-sm"><i class="fa fa-minus-circle" aria-hidden="true"></i></button>
                                         </div>
                                     </div>
                                     <!-- Botones -->
@@ -210,7 +217,69 @@
                 },
             }
         });
-    });
         
+        $('#id_cantidad_detalle, #id_precio_detalle, #id_descuento_detalle').change(function(){
+            calcular_detalle();
+        });
+    });
+    
+    function selectProducto(id, descripcion){
+        $('#id_cantidad_detalle').val(0);
+        $('#id_precio_detalle').val(0);
+        $('#id_descuento_detalle').val(0);
+
+        $('#id_sub_total_detalle').val(0);
+        $('#id_total_detalle').val(0);
+
+        $('#id_id_producto').val(+id);
+        $('#id_descripcion_producto').val(descripcion);
+        $('#id_cantidad_detalle').focus();
+        $('#id_cantidad_detalle').select();
+
+        $('.table').DataTable().search('').draw();
+    }
+
+    function calcular_detalle(){
+        var cant, prec, desc, sub_total, total;
+        cant = $('#id_cantidad_detalle').val();
+        cant = cant=== '' ? 0 : +cant;
+        cant = cant<0 ? 0 : cant;
+
+        prec = $('#id_precio_detalle').val();
+        prec = prec=== '' ? 0 : +prec;
+        prec = prec<0 ? 0 : prec;
+
+        desc = $('#id_descuento_detalle').val();
+        desc = desc=== '' ? 0 : +desc;
+        desc = desc<0 ? 0 : desc;
+
+        desc = desc>(cant * prec) ? 0 : desc;
+
+        sub_total = cant * prec;
+        total = sub_total - desc;
+
+        $('#id_cantidad_detalle').val(cant);
+        $('#id_precio_detalle').val(prec);
+        $('#id_descuento_detalle').val(desc);
+        $('#id_sub_total_detalle').val(sub_total);
+        $('#id_total_detalle').val(total);
+    }
+
+    function clear_detail(){
+        $('#id_cantidad_detalle').val(0);
+        $('#id_precio_detalle').val(0);
+        $('#id_descuento_detalle').val(0);
+
+        $('#id_sub_total_detalle').val(0);
+        $('#id_total_detalle').val(0);
+
+        $('#id_id_producto').val('');
+        $('#id_descripcion_producto').val('');
+
+        $('.table').DataTable().search('').draw();
+
+        $('#id_proveedor').focus();
+    }
+    $('#id_proveedor').focus();
 </script>
 {% endblock js %}
