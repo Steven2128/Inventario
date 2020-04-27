@@ -51,6 +51,8 @@
                     <td>
                         <a href="{% url 'compras_edit' item.id %}" class="btn btn-warning btn-circle" role="button"><i
                                 class="far fa-edit"></i></a>
+                        <a href="{% url 'compras_print_one' item.id %}" class="btn btn-success btn-circle" target="reportes" role="button"><i
+                            class="fas fa-print"></i></a>
                     </td>
                 </tr>
                 {% endfor %}
