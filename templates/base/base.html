@@ -95,11 +95,16 @@
             {% if perms.cmp.view_proveedor %}
             <a class="collapse-item" href="{% url 'proveedor_list' %}">Proveedores</a>
             {% endif %}
+            {% if perms.factura.view_cliente %}
+            <h6 class="collapse-header">Catálogos de Facturación</h6>
+            <a class="collapse-item" href="{% url 'cliente_list' %}">Clientes</a>
+            {% endif %}
           </div>
         </div>
       </li>
 
       <!-- Nav Item - Movimientos Collapse Menu -->
+      {% if perms.cmp.view_comprasenc %}
       <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities" aria-expanded="true" aria-controls="collapseUtilities">
           <i class="fas fa-fw fa-truck"></i>
@@ -107,11 +112,14 @@
         </a>
         <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
+            {% if perms.cmp.view_comprasenc %}
             <h6 class="collapse-header">Entradas</h6>
             <a class="collapse-item" href="{% url 'compras_list' %}">Compras</a>
+            {% endif %}
           </div>
         </div>
       </li>
+      {% endif %}
 
       <!-- Divider -->
       <hr class="sidebar-divider">

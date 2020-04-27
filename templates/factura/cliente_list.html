@@ -1,0 +1,91 @@
+{% extends 'base/base.html' %}
+
+{% block content %}
+<!-- Dropdown Card Example -->
+<div class="card shadow mb-4">
+    <!-- Card Header - Dropdown -->
+    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+        <h6 class="m-0 font-weight-bold text-primary">Listado de Clientes</h6>
+        <div class="dropdown no-arrow">
+            <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
+                <div class="dropdown-header">Acciones</div>
+                <a class="dropdown-item" href="#"><i class="far fa-calendar-plus mr-1"></i>Nuevo</a>
+            </div>
+        </div>
+    </div>
+    <!-- Card Body -->
+    <div class="card-body table-responsive">
+        {% if not obj %}
+        <div class="alert alert-success" role="alert">
+            <h5 class="alert-heading">No hay clientes</h5>
+        </div>
+        {% else %}
+        <table class="table table-striped table-hover">
+            <thead>
+                <th>Id</th>
+                <th>Nombres</th>
+                <th>Apellidos</th>
+                <th>Telefono</th>
+                <th>Tipo</th>
+                <th>Estado</th>
+                <th class="all">Acciones</th>
+            </thead>
+            <tbody>
+                {% for item in obj %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ item.nombres }}</td>
+                    <td>{{ item.apellidos }}</td>
+                    <td>{{ item.telefono }}</td>
+                    <td>{{ item.tipo }}</td>
+                    <td>{{ item.estado|yesno:"Activo, Inactivo" }}</td>
+                    <td>
+                        <a href="#" class="btn btn-warning btn-circle" role="button"><i
+                                class="far fa-edit"></i></a>
+                        {% if item.estado == True %}
+                            <a href="#" class="btn btn-danger btn-circle" role="button">
+                                <i class="far fa-thumbs-down"></i>
+                            </a>
+                        {% else %}
+                            <a href="#" class="btn btn-success btn-circle" role="button">
+                                <i class="far fa-thumbs-up"></i>
+                            </a>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% endif %}
+    </div>
+    <!-- /Card Body -->
+</div>
+{% endblock content %}
+
+{% block js %}
+<script>
+    //Call the datatables jquery plugin
+    $(document).ready(function () {
+        $('.table').DataTable({
+            
+            language: {
+                processing: "Procesando...",
+                search: "Buscar:",
+                lengthMenu: "Mostrar _MENU_ registros por página",
+                info: "Mostrando _START_ a _END_ de _TOTAL_ elementos",
+                infoEmpty: "No hay registros disponibles",
+                infoFiltered: "(Filtrado por _MAX_ elementos en total)",
+                zeroRecords: "Nada Encontrado - Lo siento",
+                paginate: {
+                    previous: "Anterior",
+                    next: "Siguiente",
+                },
+            }
+        });
+    });
+</script>
+{% endblock js %}
