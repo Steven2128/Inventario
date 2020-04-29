@@ -1,7 +1,7 @@
 <div class="modal-dialog modal-lg">
     <div class="modal-content">
         {% if object %}
-        <form action="#" method="post" class="form-inline">
+        <form action="{% url 'cliente_edit' object.id %}" method="post" class="form-inline">
         {% else %}
         <form action="{% url 'cliente_new' %}" method="post" class="form-inline">
         {% endif %}

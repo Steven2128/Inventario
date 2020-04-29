@@ -13,7 +13,7 @@
             </a>
             <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
                 <div class="dropdown-header">Acciones</div>
-                <a class="dropdown-item" href="#" onclick=""><i class="far fa-calendar-plus mr-1"></i>Nuevo</a>
+                <a class="dropdown-item" href="#" onclick="abrir_modal('{% url 'cliente_new' %}')"><i class="far fa-calendar-plus mr-1"></i>Nuevo</a>
             </div>
         </div>
     </div>
@@ -44,17 +44,8 @@
                     <td>{{ item.tipo }}</td>
                     <td>{{ item.estado|yesno:"Activo, Inactivo" }}</td>
                     <td>
-                        <a href="#" class="btn btn-warning btn-circle" role="button"><i
+                        <a href="#" onclick="abrir_modal('{% url 'cliente_edit' item.id %}')" class="btn btn-warning btn-circle" role="button"><i
                                 class="far fa-edit"></i></a>
-                        {% if item.estado == True %}
-                            <a href="#" class="btn btn-danger btn-circle" role="button">
-                                <i class="far fa-thumbs-down"></i>
-                            </a>
-                        {% else %}
-                            <a href="#" class="btn btn-success btn-circle" role="button">
-                                <i class="far fa-thumbs-up"></i>
-                            </a>
-                        {% endif %}
                     </td>
                 </tr>
                 {% endfor %}

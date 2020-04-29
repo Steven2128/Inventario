@@ -19,6 +19,7 @@ class CategoriaView(LoginRequiredMixin, PermissionRequiredMixin, generic.ListVie
 
 
 class CategoriaNew(LoginRequiredMixin, PermissionRequiredMixin, SuccessMessageMixin, generic.CreateView):
+    permission_required = 'inv.add_categoria'
     template_name = 'inv/categoria_form.html'
     form_class = CategoriaForm
     success_message = 'Categoría creada exitosamente!'
