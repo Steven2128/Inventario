@@ -3,6 +3,8 @@ from django.urls import reverse_lazy
 
 from django.contrib.messages.views import SuccessMessageMixin
 
+from django.contrib.auth.decorators import login_required, permission_required
+
 from django.views.generic import CreateView, UpdateView, DeleteView, ListView
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from bases.views import VistaBaseCreate, VistaBaseEdit
@@ -31,3 +33,17 @@ class ClienteEdit(VistaBaseEdit):
     template_name = 'factura/cliente_form.html'
     form_class = ClienteForm
     success_url = reverse_lazy('cliente_list')
+
+
+@login_required
+@permission_required('cmp.change_cliente')
+def cliente_inactivar(request, id):
+    model = Cliente.objects.filter(pk=id).first()
+        
+    if request.method == 'GET':
+        if model.estado ==True:
+            model.estado = False
+        else:
+            model.estado = True
+        model.save()
+    return redirect('cliente_list')

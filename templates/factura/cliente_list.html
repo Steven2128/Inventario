@@ -46,6 +46,15 @@
                     <td>
                         <a href="#" onclick="abrir_modal('{% url 'cliente_edit' item.id %}')" class="btn btn-warning btn-circle" role="button"><i
                                 class="far fa-edit"></i></a>
+                        {% if item.estado == True %}
+                        <a href="{% url 'cliente_inactivar' item.id %}" class="btn btn-danger btn-circle" role="button">
+                            <i class="far fa-thumbs-down"></i>
+                        </a>
+                        {% else %}
+                        <a href="{% url 'cliente_inactivar' item.id %}" class="btn btn-success btn-circle" role="button">
+                            <i class="far fa-thumbs-up"></i>
+                        </a>
+                        {% endif %}
                     </td>
                 </tr>
                 {% endfor %}
