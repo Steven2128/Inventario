@@ -1,0 +1,41 @@
+{% extends 'base/base.html' %}
+{% block content %}
+    <div class="card shadow mb-4">
+        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+            <a href="#" class="btn btn-success">Guardar</a>
+            <a href="" class="btn btn-warning">Imprimir</a>
+            <a href="{% url 'factura_list' %}" class="btn btn-danger">Cancelar</a>
+        </div>
+        <div class="card-body">
+            <div class="content">
+                <!-- Sección Superior -->
+                <div class="row">
+                <!-- Sección Izquierda -->
+                    <div class="col-lg-6">
+                        Sección Izquierda
+                    </div>
+                    <!-- Fin Sección Izquierda -->
+                    <!-- Sección Derecha -->
+                    <div class="col-lg-6">
+                        Sección Derecha
+                    </div>
+                    <!-- Fin Sección Derecha -->
+                </div>
+                <!-- Sección Superior -->
+                <!-- Inicio Detalle -->
+                <hr>
+                <div class="row p-1">
+                    Detalle
+                </div>
+                <!-- Fin Detalle -->
+            </div>
+        </div>
+    </div>
+{% endblock content %}
+{% block js %}
+<script>
+    $(function (){
+        $("#sidebarToggle").click();
+    });
+</script>
+{% endblock js%}

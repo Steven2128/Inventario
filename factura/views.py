@@ -54,3 +54,10 @@ class FacturaView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     model = FacturaEnc
     template_name = 'factura/factura_list.html'
     context_object_name = 'obj'
+
+@login_required
+@permission_required('factura.change_facturaenc')
+def facturas(request, id=None):
+    template_name = 'factura/factura.html'
+    contexto = {}
+    return render(request, template_name, contexto)

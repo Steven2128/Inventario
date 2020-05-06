@@ -9,4 +9,5 @@ urlpatterns = [
     path('clientes/estado/<int:id>', views.cliente_inactivar, name="cliente_inactivar"),
     #Facturas CRUD
     path('facturas/', views.FacturaView.as_view(), name="factura_list"),
+    path('facturas/new', views.facturas, name="factura_new"),
 ]
