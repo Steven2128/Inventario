@@ -198,6 +198,23 @@
 </script>
 <script>
     //Call the datatables jquery plugin
+    $('.table').DataTable({
+            
+            language: {
+                processing: "Procesando...",
+                search: "Buscar:",
+                lengthMenu: "Mostrar _MENU_ registros por página",
+                info: "Mostrando _START_ a _END_ de _TOTAL_ elementos",
+                infoEmpty: "No hay registros disponibles",
+                infoFiltered: "(Filtrado por _MAX_ elementos en total)",
+                zeroRecords: "Nada Encontrado - Lo siento",
+                paginate: {
+                    previous: "Anterior",
+                    next: "Siguiente",
+                },
+            }
+    });
+    
     $(function () {
         $("#id_fecha_compra, #id_fecha_factura").datetimepicker({
             format: 'Y-m-d',
