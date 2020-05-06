@@ -28,4 +28,5 @@ urlpatterns = [
     path('productos/new', views.ProductoNew.as_view(), name="producto_new"),
     path('productos/edit/<int:pk>', views.ProductoEdit.as_view(), name="producto_edit"),
     path('productos/inactivar/<int:id>', views.producto_inactivar, name="producto_inactivar"),
+    path('productos/json', views.get_all_products, name="productos_json"),
 ]

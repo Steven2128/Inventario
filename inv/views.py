@@ -2,6 +2,9 @@ from django.shortcuts import render, redirect
 from django.views import generic
 from django.urls import reverse_lazy
 
+from django.core import serializers
+from django.http import HttpResponse
+
 from django.contrib.messages.views import SuccessMessageMixin
 
 from django.contrib.auth.decorators import login_required, permission_required
@@ -228,3 +231,7 @@ def producto_inactivar(request, id):
         model.save()
     return redirect('producto_list')
     
+
+def get_all_products(request):
+    productos = serializers.serialize('json', Producto.objects.all().filter(estado=True))
+    return HttpResponse(productos, content_type='text/json-comment-filtered')
