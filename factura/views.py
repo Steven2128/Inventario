@@ -9,7 +9,7 @@ from django.views.generic import CreateView, UpdateView, DeleteView, ListView
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from bases.views import VistaBaseCreate, VistaBaseEdit
 
-from .models import Cliente
+from .models import Cliente, FacturaEnc, FacturaDet
 from .forms import ClienteForm
 
 class ClienteView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
@@ -47,3 +47,10 @@ def cliente_inactivar(request, id):
             model.estado = True
         model.save()
     return redirect('cliente_list')
+
+
+class FacturaView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
+    permission_required = 'factura.view_facturaenc'
+    model = FacturaEnc
+    template_name = 'factura/factura_list.html'
+    context_object_name = 'obj'

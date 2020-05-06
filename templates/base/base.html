@@ -107,7 +107,7 @@
       </li>
 
       <!-- Nav Item - Movimientos Collapse Menu -->
-      {% if perms.cmp.view_comprasenc %}
+      {% if perms.cmp.view_comprasenc or perms.factura.view_facturaen %}
       <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities" aria-expanded="true" aria-controls="collapseUtilities">
           <i class="fas fa-fw fa-truck"></i>
@@ -118,6 +118,10 @@
             {% if perms.cmp.view_comprasenc %}
             <h6 class="collapse-header">Entradas</h6>
             <a class="collapse-item" href="{% url 'compras_list' %}">Compras</a>
+            {% endif %}
+            {% if perms.factura.view_facturaenc %}
+            <h6 class="collapse-header">Salidas</h6>
+            <a class="collapse-item" href="{% url 'factura_list' %}">Facturas</a>
             {% endif %}
           </div>
         </div>
