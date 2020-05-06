@@ -9,6 +9,8 @@ from django.views.generic import CreateView, UpdateView, DeleteView, ListView
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from bases.views import VistaBaseCreate, VistaBaseEdit
 
+from datetime import datetime
+
 from .models import Cliente, FacturaEnc, FacturaDet
 from .forms import ClienteForm
 
@@ -59,5 +61,13 @@ class FacturaView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
 @permission_required('factura.change_facturaenc')
 def facturas(request, id=None):
     template_name = 'factura/factura.html'
-    contexto = {}
+
+    encabezado = {
+        'fecha': datetime.today()
+    }
+
+    detalle = {    }
+    clientes = Cliente.objects.filter(estado=True)
+    contexto = {'enc': encabezado, 'det': detalle, 'clientes': clientes}
+
     return render(request, template_name, contexto)
