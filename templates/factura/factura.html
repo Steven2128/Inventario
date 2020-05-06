@@ -47,7 +47,7 @@
                                     <div class="row mt-1">
                                         <div class="col">Descuento:</div>
                                         <div class="col">
-                                            <input type="text" name="sub_total" id="sub_total" class="form-control text-right" value="0.00" disabled>
+                                            <input type="text" name="descuento" id="descuento" class="form-control text-right" value="0.00" disabled>
                                         </div>
                                     </div>
                                     <div class="row mt-1">
@@ -154,6 +154,14 @@
         $('#enc_cliente').select2({
             placeholder: 'Seleccione Cliente',
             allowClear: true
+        });
+
+        $("#btnBuscar").click(function (e){
+            if($("#enc_cliente").val() === "0"){
+                mensaje('Cliente no seleccionado', 'red');
+                return false;
+            }
+            abrir_modal("{% url 'factura_producto' %}")
         });
     });
 </script>

@@ -5,6 +5,9 @@ from django.contrib.messages.views import SuccessMessageMixin
 
 from django.contrib.auth.decorators import login_required, permission_required
 
+from django.core import serializers
+from django.http import HttpResponse
+
 from django.views.generic import CreateView, UpdateView, DeleteView, ListView
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from bases.views import VistaBaseCreate, VistaBaseEdit
@@ -12,6 +15,8 @@ from bases.views import VistaBaseCreate, VistaBaseEdit
 from datetime import datetime
 
 from .models import Cliente, FacturaEnc, FacturaDet
+from inv.models import Producto
+import inv.views as inv
 from .forms import ClienteForm
 
 class ClienteView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
@@ -71,3 +76,10 @@ def facturas(request, id=None):
     contexto = {'enc': encabezado, 'det': detalle, 'clientes': clientes}
 
     return render(request, template_name, contexto)
+
+
+class ProductoView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
+    permission_required = 'inv.view_producto'
+    model = Producto
+    template_name = "factura/buscar_producto.html"
+    context_object_name = 'obj'

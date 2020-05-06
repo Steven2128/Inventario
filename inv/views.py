@@ -231,7 +231,15 @@ def producto_inactivar(request, id):
         model.save()
     return redirect('producto_list')
     
-
+@login_required
+@permission_required('inv.view_producto')
 def get_all_products(request):
     productos = serializers.serialize('json', Producto.objects.all().filter(estado=True))
+    return HttpResponse(productos, content_type='text/json-comment-filtered')
+
+
+@login_required
+@permission_required('inv.view_producto')
+def products_factura(request):
+    productos = serializers.serialize('json', Producto.objects.all().exclude(existencia = 0).filter(estado=True))
     return HttpResponse(productos, content_type='text/json-comment-filtered')

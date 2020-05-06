@@ -1,0 +1,71 @@
+<div class="modal-dialog modal-lg">
+    <div class="modal-content">
+        <div class="col-lg-12 col-xl-12 mb-12">
+            <div class="card border-left-info shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                Buscar Producto</div>
+                            <div class="dropdown-divider"></div>
+                            <div class="row">
+                                <table 
+                                id="tblProducto" 
+                                data-toggle="table" 
+                                data-show-refresh="true"
+                                data-pagination="true" 
+                                data-search="true" 
+                                data-page-size="2"
+                                data-url="{% url 'productos_factura_json' %}" 
+                                data-locale="es-MX" 
+                                style="width: 100%;">
+                                    <thead>
+                                        <th data-field="pk">Id</th>
+                                        <th data-field="fields.codigo">Código</th>
+                                        <th data-field="fields.codigo_barra">Barra</th>
+                                        <th data-field="fields.descripcion">Descripción</th>
+                                        <th data-field="fields.existencia">Existencia</th>
+                                        <th data-field="fields.precio">Precio</th>
+                                        <th data-formatter="priceFormatter" data-align="center">Acciones</th>
+                                    </thead>
+                                </table>
+                            </div>
+                            <div class="dropdown-divider"></div>
+                            <div class="row">
+                                <div class="col">
+                                    <button type="button" id="btnCancelar" class="btn btn-danger"><span
+                                            class="fa fa-undo mr-1"></span>Cancelar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% block js %}
+<script>
+    $(function (){
+        $("#btnCancelar").click(function(e){
+            e.preventDefault();
+            cerrar_modal();
+        });
+    });
+
+    $("#tblProducto").bootstrapTable();
+
+    function seleccionarProducto(id, codigo, descripcion, precio){
+        $("#codigo").val(codigo);
+        $("#descripcion").val(descripcion);
+        $("#precio").val(precio);
+        $("#btnCancelar").click();
+        $("#codigo").select();
+        $("#codigo").focus();
+    }
+
+    function priceFormatter(value, row) {
+        return '<button id="btnSelect" class="btn btn-warning btn-circle" onclick="seleccionarProducto('+row.pk+', \''+row.fields.codigo+'\', \''+row.fields.descripcion+'\', '+row.fields.precio+')"><i class="fas fa-shopping-cart"></i></button>'
+    }
+</script>
+{% endblock js %}
