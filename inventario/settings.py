@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     'cmp',
     'factura',
     'django_userforeignkey',
+    'rest_framework',
+    'api',
 ]
 
 MIDDLEWARE = [
