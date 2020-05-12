@@ -5,6 +5,7 @@ from rest_framework.response import Response
 
 from .serializers import ProductoSerializer
 from inv.models import Producto
+from django.db.models import Q
 
 class ProductoList(APIView):
     def get(self, request):
@@ -15,6 +16,6 @@ class ProductoList(APIView):
 
 class ProductoDetalle(APIView):
     def get(self, request, codigo):
-        prod = get_object_or_404(Producto, codigo=codigo)
+        prod = get_object_or_404(Producto, Q(codigo=codigo)|Q(codigo_barra=codigo))
         data = ProductoSerializer(prod).data
         return Response(data)
