@@ -149,6 +149,52 @@
         }
     });
 
+    function buscarProducto(){
+        if($("#enc_cliente").val()=== '0' || $("#enc_cliente").val()===null){
+            mensaje("Cliente no seleccionado", 'red');
+            return false;
+        }
+
+        var codigo = $("#codigo").val();
+        if(codigo===''){
+            return false;
+        }
+        var path = "{% url 'producto_list' %}"+codigo;
+        $.ajax({
+            type:"GET",
+            url: path,
+            success: function(r){
+                console.log(r);
+                console.log(r.existencia);
+                console.log(r.estado);
+                if(r.existencia<=0 || !r.estado){
+                    mensaje("Producto no tiene existencia o esta inactivo", 'orange');
+                    $("#codigo").val("");
+                    $("#descripcion").val("");
+                    $("#precio").val("0.00");
+                    $("#codigo").focus();
+                    return false;
+                }
+                $("#codigo").val(r.codigo);
+                $("#descripcion").val(r.descripcion);
+                $("#precio").val(r.precio);
+                $("#cantidad").focus();
+            },
+            error: function(a,b,c){
+                console.log(a);
+                if(a.status==404){
+                    mensaje("Producto -"+codigo+"- No encontrado o  no existe", 'red');
+                    $("#codigo").val("");
+                    $("#descripcion").val("");
+                    $("#precio").val("0.00");
+                    $("#codigo").focus();
+                }
+            }
+
+        });
+
+    }
+
     $(function (){
         $("#sidebarToggle").click();
         $('#enc_cliente').select2({
@@ -162,6 +208,12 @@
                 return false;
             }
             abrir_modal("{% url 'factura_producto' %}")
+        });
+
+        $("#codigo").keypress(function(e){
+            if(e.keyCode===13){
+                buscarProducto();
+            }
         });
     });
 </script>
