@@ -84,10 +84,22 @@
                                 <input type="number" name="precio" id="precio" placeholder="Precio" class="form-control" disabled>
                             </div>
                             <div class="col-lg-3">
-                                <input type="number" name="descuento" id="descuento" placeholder="Descuento" class="form-control">
+                                <input type="number" name="descuento_detalle" id="descuento_detalle" placeholder="Descuento" class="form-control">
                             </div>
                             <div class="col-lg-1">
                                 <button type="button" class="btn btn-success" id="btnGuardar"><i class="far fa-plus-square"></i></button>
+                            </div>
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col-lg-9 text-right">Sub Total</div>
+                            <div class="col-lg-3">
+                                <input type="number" name="sub_total_detalle" id="sub_total_detalle" class="form-control" placeholder="Sub Total" value="0.00" disabled>
+                            </div>
+                        </div>
+                        <div class="row mt-1">
+                            <div class="col-lg-9 text-right">Total</div>
+                            <div class="col-lg-3">
+                                <input type="number" name="total_detalle" id="total_detalle" class="form-control" placeholder="Total" value="0.00" disabled>
                             </div>
                         </div>
                     </div>
@@ -149,6 +161,29 @@
         }
     });
 
+    function calcular_detalle(){
+        var cant, prec, desc, sub_total, total;
+        cant = $('#cantidad').val();
+        cant = cant=== '' ? 0 : +cant;
+        cant = cant<0 ? 0 : cant;
+
+        prec = $('#precio').val();
+        prec = prec=== '' ? 0 : +prec;
+        prec = prec<0 ? 0 : prec;
+
+        desc = $('#descuento_detalle').val();
+        desc = desc=== '' ? 0 : +desc;
+        desc = desc<0 ? 0 : desc;
+
+        desc = desc>(cant * prec) ? 0 : desc;
+
+        sub_total = cant * prec;
+        total = sub_total - desc;
+
+        $('#sub_total_detalle').val(sub_total);
+        $('#total_detalle').val(total);
+    }
+
     function buscarProducto(){
         if($("#enc_cliente").val()=== '0' || $("#enc_cliente").val()===null){
             mensaje("Cliente no seleccionado", 'red');
@@ -164,9 +199,6 @@
             type:"GET",
             url: path,
             success: function(r){
-                console.log(r);
-                console.log(r.existencia);
-                console.log(r.estado);
                 if(r.existencia<=0 || !r.estado){
                     mensaje("Producto no tiene existencia o esta inactivo", 'orange');
                     $("#codigo").val("");
@@ -181,7 +213,6 @@
                 $("#cantidad").focus();
             },
             error: function(a,b,c){
-                console.log(a);
                 if(a.status==404){
                     mensaje("Producto -"+codigo+"- No encontrado o  no existe", 'red');
                     $("#codigo").val("");
@@ -214,6 +245,10 @@
             if(e.keyCode===13){
                 buscarProducto();
             }
+        });
+
+        $("#cantidad, #precio, #descuento_detalle").change(function(){
+            calcular_detalle();
         });
     });
 </script>
