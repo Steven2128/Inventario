@@ -44,7 +44,7 @@
                     <td>{{ item.descuento }}</td>
                     <td>{{ item.total }}</td>
                     <td>
-                        <a href="#" class="btn btn-warning btn-circle" role="button"><i
+                        <a href="{% url 'factura_edit' item.id %}" class="btn btn-warning btn-circle" role="button"><i
                                 class="far fa-edit"></i></a>
                     </td>
                 </tr>

@@ -34,7 +34,7 @@ class FacturaEnc(ClaseModelo2):
     total = models.FloatField(default=0)
 
     def __str__(self):
-        return self.id
+        return '{}'.format(self.id)
 
     def save(self):
         self.total = self.sub_total - self.descuento
@@ -55,12 +55,12 @@ class FacturaDet(ClaseModelo2):
     total = models.FloatField(default=0)
 
     def __str__(self):
-        return self.producto
+        return '{}, {}'.format(self.producto, self.factura)
 
     def save(self):
         self.sub_total = float(float(int(self.cantidad)) * float(self.precio))
-        self.total = self.sub_total - self.descuento
-        super(FacturaEnc, self).save()
+        self.total = self.sub_total - float(self.descuento)
+        super(FacturaDet, self).save()
 
     class meta:
         verbose_name_plural = 'Detalles facturas'

@@ -1,5 +1,7 @@
 {% extends 'base/base.html' %}
 {% block content %}
+<form method="post" id="frmfactura">
+    {% csrf_token %}
     <div class="card shadow mb-4">
         <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
             <a href="#" class="btn btn-success">Guardar</a>
@@ -81,13 +83,13 @@
                                 <input type="number" name="cantidad" id="cantidad" placeholder="Cantidad" class="form-control">
                             </div>
                             <div class="col-lg-4">
-                                <input type="number" name="precio" id="precio" placeholder="Precio" class="form-control" disabled>
+                                <input type="number" name="precio" id="precio" placeholder="Precio" class="form-control" readonly>
                             </div>
                             <div class="col-lg-3">
                                 <input type="number" name="descuento_detalle" id="descuento_detalle" placeholder="Descuento" class="form-control">
                             </div>
                             <div class="col-lg-1">
-                                <button type="button" class="btn btn-success" id="btnGuardar"><i class="far fa-plus-square"></i></button>
+                                <button type="submit" class="btn btn-success" id="btnGuardar"><i class="far fa-plus-square"></i></button>
                             </div>
                         </div>
                         <div class="row mt-2">
@@ -114,6 +116,7 @@
                             <thead>
                                 <th>Código</th>
                                 <th>Descripción</th>
+                                <th>Precio</th>
                                 <th>Cantidad</th>
                                 <th>Sub Total</th>
                                 <th>Descuento</th>
@@ -121,16 +124,17 @@
                                 <th class="all">Acciones</th>
                             </thead>
                             <tbody>
-                                {% for item in detalle %}
+                                {% for item in det %}
                                     <tr>
+                                        <td>{{ item.factura.id }}</td>
                                         <td>{{ item.producto }}</td>
+                                        <td>{{ item.precio }}</td>
                                         <td>{{ item.cantidad }}</td>
-                                        <td>{{ item.precio_prv }}</td>
                                         <td>{{ item.sub_total }}</td>
                                         <td>{{ item.descuento }}</td>
                                         <td>{{ item.total }}</td>
                                         <td>
-                                            <button class="btn btn-warning btn-circle" class="fas fa-edit"></i></button>
+                                            <button class="btn btn-warning btn-circle"><i class="fas fa-edit"></i></button>
                                         </td>
                                     </tr>
                                 {% endfor %}
@@ -142,6 +146,7 @@
             </div>
         </div>
     </div>
+</form>
 {% endblock content %}
 {% block js %}
 <script>
@@ -180,6 +185,10 @@
         sub_total = cant * prec;
         total = sub_total - desc;
 
+        $('#cantidad').val(cant);
+        $('#precio').val(prec);
+        $('#descuento_detalle').val(desc);
+
         $('#sub_total_detalle').val(sub_total);
         $('#total_detalle').val(total);
     }
@@ -194,13 +203,13 @@
         if(codigo===''){
             return false;
         }
-        var path = "{% url 'producto_list' %}"+codigo;
+        var path = "{% url 'producto_list_api' %}"+codigo;
         $.ajax({
             type:"GET",
             url: path,
             success: function(r){
                 if(r.existencia<=0 || !r.estado){
-                    mensaje("Producto no tiene existencia o esta inactivo", 'orange');
+                    mensaje("Producto no tiene existencia o esta inactivo.", 'orange');
                     $("#codigo").val("");
                     $("#descripcion").val("");
                     $("#precio").val("0.00");
@@ -214,7 +223,7 @@
             },
             error: function(a,b,c){
                 if(a.status==404){
-                    mensaje("Producto -"+codigo+"- No encontrado o  no existe", 'red');
+                    mensaje("Producto <strong>"+codigo+"</strong> no encontrado o  no existe.", 'red');
                     $("#codigo").val("");
                     $("#descripcion").val("");
                     $("#precio").val("0.00");
@@ -243,6 +252,7 @@
 
         $("#codigo").keypress(function(e){
             if(e.keyCode===13){
+                e.preventDefault();
                 buscarProducto();
             }
         });

@@ -60,7 +60,7 @@ class ComprasDet(ClaseModelo):
         return '{}, {}'.format(self.producto, self.compra)
 
     def save(self):
-        self.sub_total = float(float(int(self.cantidad)) * float(self.precio_prv))
+        self.sub_total = float(float(int(self.cantidad)) * float(self.precio))
         self.total = self.sub_total - float(self.descuento)
         super(ComprasDet, self).save()
 
