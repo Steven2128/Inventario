@@ -66,7 +66,6 @@ class FacturaView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
 @permission_required('factura.change_facturaenc')
 def facturas(request, id=None):
     template_name = 'factura/factura.html'
-
     detalle = {}
     clientes = Cliente.objects.filter(estado=True)
 
@@ -96,39 +95,42 @@ def facturas(request, id=None):
     
     if request.method == 'POST':
         cliente = request.POST.get("enc_cliente")
-        fecha = request.POST.get("fecha")
         cli = Cliente.objects.get(pk=cliente)
-        if not id:
-            enc = FacturaEnc(
-                cliente = cli,
-                fecha= fecha,
-            )
+        enc = FacturaEnc.objects.filter(pk=id).first()
+
+        codigo = request.POST.get("codigo")
+        prod = Producto.objects.get(codigo=codigo)
+        cantidad = request.POST.get("cantidad")
+        sub_total = float((int(cantidad) * float(prod.precio)))
+        descuento = request.POST.get("descuento_detalle")
+        total = float(sub_total) * float(int(descuento))
+        if id:
+            enc.cliente = cli
+            enc.save()
+
+            if int(cantidad) > prod.existencia:
+                messages.error(request, 'Cantidad invalida')
+                return redirect('factura_edit', id=id)
+            
+        else:
+            if int(cantidad) > prod.existencia:
+                messages.error(request, 'Cantidad invalida')
+                return redirect('factura_new')
+
+            enc = FacturaEnc(cliente=cli, fecha=datetime.now)
             if enc:
                 enc.save()
                 id = enc.id
-        else:
-            enc = FacturaEnc.objects.filter(pk=id).first()
-            if enc:
-                enc.cliente = cli
-                enc.save()
 
-        if not id:
-            messages.error(request, 'Sin No. factura')
-            return redirect("factura_list")
-            
-        codigo = request.POST.get("codigo")
-        cantidad = request.POST.get("cantidad")
-        precio = request.POST.get("precio")
-        sub_total = request.POST.get("sub_total_detalle")
-        descuento = request.POST.get("descuento_detalle")
-        total = request.POST.get("total_detalle")
+            if not id:
+                messages.error(request, 'Sin No. factura')
+                return redirect("factura_list")
 
-        prod = Producto.objects.get(codigo=codigo)
         det = FacturaDet(
             factura = enc,
             producto = prod,
             cantidad = cantidad,
-            precio = precio,
+            precio = prod.precio,
             sub_total = sub_total,
             descuento = descuento,
             total = total
@@ -136,7 +138,7 @@ def facturas(request, id=None):
 
         if det:
             det.save()
-        return redirect('factura_edit', id=id)
+            return redirect('factura_edit', id=id)
 
     return render(request, template_name, contexto)
 

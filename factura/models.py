@@ -1,4 +1,12 @@
 from django.db import models
+
+#Para signals
+from django.db.models.signals import post_save, post_delete
+from django.dispatch import receiver
+from django.db.models import Sum
+
+from django.contrib import messages
+
 from bases.models import ClaseModelo, ClaseModelo2
 from inv.models import Producto
 
@@ -34,7 +42,7 @@ class FacturaEnc(ClaseModelo2):
     total = models.FloatField(default=0)
 
     def __str__(self):
-        return '{}'.format(self.id)
+        return '{}, {}'.format(self.id, self.cliente)
 
     def save(self):
         self.total = self.sub_total - self.descuento
@@ -65,3 +73,24 @@ class FacturaDet(ClaseModelo2):
     class meta:
         verbose_name_plural = 'Detalles facturas'
         verbose_name = 'Detalle Factura'
+    
+
+@receiver(post_save, sender=FacturaDet)
+def detalle_factura_guardar(sender, instance, **kwargs):
+    factura_id = instance.factura.id
+    producto_id = instance.producto.id
+    
+    enc = FacturaEnc.objects.get(pk=factura_id)
+    if enc:
+        sub_total = FacturaDet.objects.filter(factura=factura_id).aggregate(sub_total=Sum('sub_total')).get('sub_total', 0.00)
+        
+        descuento = FacturaDet.objects.filter(factura=factura_id).aggregate(descuento=Sum('descuento')).get('descuento', 0.00)
+
+        enc.sub_total = sub_total
+        enc.descuento = descuento
+        enc.save()
+    
+    prod = Producto.objects.filter(pk=producto_id).first()
+    if prod:
+        prod.existencia =  int(prod.existencia) - int(instance.cantidad)
+        prod.save()

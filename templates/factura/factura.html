@@ -241,13 +241,48 @@
             placeholder: 'Seleccione Cliente',
             allowClear: true
         });
+       
 
         $("#btnBuscar").click(function (e){
-            if($("#enc_cliente").val() === "0"){
-                mensaje('Cliente no seleccionado', 'red');
+            if($("#enc_cliente").val() === "0" || $("#enc_cliente").val()===null){
+                mensaje('Cliente no seleccionado.', 'red');
                 return false;
             }
             abrir_modal("{% url 'factura_producto' %}")
+        });
+
+        /* Validar Envío de Detalle */
+        $('#frmfactura').submit(function (e){
+            if($("#enc_cliente").val() === "0" || $("#enc_cliente").val()===null){
+                e.preventDefault();
+                $.alert({
+                    type:'red',
+                    title: '',
+                    content: 'Cliente no seleccionado.'
+                })
+            }else if($("#codigo").val() === "" || $("#codigo").val()===null){
+                e.preventDefault();
+                $.alert({
+                    type:'red',
+                    title: '',
+                    content: 'No ha agregado producto.'
+                })
+            }else if($("#cantidad").val() === "" || $("#cantidad").val()===null){
+                e.preventDefault();
+                $.alert({
+                    type:'red',
+                    title: '',
+                    content: 'No ha ingresado cantidad.'
+                })
+            }else if($("#cantidad").val() === "0"){
+                e.preventDefault();
+                $.alert({
+                    type:'red',
+                    title: '',
+                    content: 'Cantidad invalida.'
+                })
+            }
+            
         });
 
         $("#codigo").keypress(function(e){
