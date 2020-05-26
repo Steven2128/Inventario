@@ -33,8 +33,8 @@ class ComprasEncForm(forms.ModelForm):
             self.fields[field].widget.attrs.update({
                 'class': 'form-control'
             })
-        self.fields['fecha_compra'].widget.attrs['readonly'] = True
-        self.fields['fecha_factura'].widget.attrs['readonly'] = True
+        self.fields['fecha_compra'].widget.attrs.update({'autocomplete': 'off'})
+        self.fields['fecha_factura'].widget.attrs.update({'autocomplete': 'off'})
         self.fields['sub_total'].widget.attrs['readonly'] = True
         self.fields['descuento'].widget.attrs['readonly'] = True
         self.fields['total'].widget.attrs['readonly'] = True

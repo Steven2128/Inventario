@@ -152,7 +152,6 @@ def compras(request, compra_id=None):
             cantidad = cantidad,
             precio_prv = precio,
             descuento = descuento_detalle,
-            costo = 0,
             usuario_creacion = request.user           
         )
         if det:

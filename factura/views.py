@@ -106,6 +106,7 @@ def facturas(request, id=None):
         total = float(sub_total) * float(int(descuento))
         if id:
             enc.cliente = cli
+            
             enc.save()
 
             if int(cantidad) > prod.existencia:
@@ -148,3 +149,12 @@ class ProductoView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     model = Producto
     template_name = "factura/buscar_producto.html"
     context_object_name = 'obj'
+
+
+def borrar_detalle_factura(request, id):
+    template_name = "factura/factura_borrar_detalle.html"
+    det = Producto.objects.get(pk=id)
+    if request.method == "GET":
+        context = {'det': det}
+    
+    return render(request, template_name, context)
