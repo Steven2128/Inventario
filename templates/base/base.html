@@ -466,11 +466,17 @@
         color='red';
       }
       
-      $.alert({
+      $.confirm({
         title: '',
         theme: 'Material',
         type: color,
-        content: msg
+        content: msg,
+        buttons:{
+          OK:{
+            text: 'OK',
+            keys: ['enter', 'space'],
+          }
+        }
       });
     }
 

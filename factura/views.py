@@ -12,6 +12,8 @@ from django.views.generic import CreateView, UpdateView, DeleteView, ListView
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from bases.views import VistaBaseCreate, VistaBaseEdit
 
+from django.contrib.auth import authenticate
+
 from datetime import datetime
 
 from .models import Cliente, FacturaEnc, FacturaDet
@@ -157,4 +159,31 @@ def borrar_detalle_factura(request, id):
     if request.method == "GET":
         context = {'det': det}
     
+    if request.method == 'POST':
+        user = request.POST.get('usuario');
+        password = request.POST.get('password');
+
+        user = authenticate(username=user, password=password)
+
+        if not user:
+            return HttpResponse("Usuario o contraseña incorrecto.")
+        if not user.is_active:
+            return HttpResponse('Usuario inactivo.')
+        if user:
+            prod_id = det.producto.id
+            prod = Producto.objects.get(pk=prod_id)
+
+            enc_id = det.factura.id
+            enc = FacturaEnc.objects.get(pk=enc_id)
+
+            prod.existencia += det.cantidad
+            prod.save()
+
+            enc.sub_total -= det.sub_total
+            enc.descuento -= det.descuento
+            enc.total -= det.total
+            enc.save()
+            
+            det.delete()
+            return HttpResponse('OK')
     return render(request, template_name, context)

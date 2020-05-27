@@ -126,7 +126,7 @@
                             <tbody>
                                 {% for item in det %}
                                     <tr>
-                                        <td>{{ item.factura.id }}</td>
+                                        <td>{{ item.producto.codigo }}</td>
                                         <td>{{ item.producto }}</td>
                                         <td>{{ item.precio }}</td>
                                         <td>{{ item.cantidad }}</td>
@@ -200,14 +200,54 @@
                 title: 'Confirmación Requerida',
                 type: 'red',
                 content: 'url:/factura/facturas/borrar_detalle/'+id,
+
+                buttons:{
+                    borrar: {
+                        text: 'Borrar',
+                        btnClass: 'btn btn-danger',
+                        keys: ['enter'],
+                        action: function (){
+                            var usuario = this.$content.find('input#usuario');
+                            var password = this.$content.find('input#password');
+                            if(!usuario.val().trim() && !password.val().trim()){
+                                mensaje('Usuario y contraseña requerida', 'red');
+                                return false;
+                            }else if(!usuario.val().trim()){
+                                mensaje('Usuario es requerido', 'red');
+                                return false;
+                            }else if(!password.val().trim()){
+                                mensaje('Contraseña es requerida', 'red');
+                                return false;
+                            }
+                            var data = {'usuario':usuario.val(), 'password':password.val()};
+                            var token = '{{ csrf_token }}';
+                            $.ajax({
+                                headers: { "X-CSRFToken": token},
+                                type: "POST",
+                                data: data,
+                                url: '/factura/facturas/borrar_detalle/'+id,
+                                success: function(r){
+                                    if(r=='OK'){
+                                        location.reload(true);
+                                    }else{
+                                        mensaje(r, 'red');
+                                    }
+                                },
+                                error: function(a,b,c){
+                                    mensaje(c, 'red');
+                                }
+                            });
+                        }
+                    },
+                    Cancelar: function(){}
+                },
                 onContentReady: function () {
-                    // when content is fetched & rendered in DOM
                     var self = this;
                     self.$content.find('#usuario').val('{{ user.username }}');
-                    self.$content.find('#password').select();
                     self.$content.find('#password').focus();
-                }
+                },
             });
+
     }
 
     function buscarProducto(){
