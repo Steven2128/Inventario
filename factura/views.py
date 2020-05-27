@@ -183,7 +183,7 @@ def borrar_detalle_factura(request, id):
             enc.descuento -= det.descuento
             enc.total -= det.total
             enc.save()
-            
+
             det.delete()
             return HttpResponse('OK')
     return render(request, template_name, context)

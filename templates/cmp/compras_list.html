@@ -1,5 +1,5 @@
 {% extends 'base/base.html' %}
-
+{% load humanize %}
 {% block content %}
 <!-- Dropdown Card Example -->
 <div class="card shadow mb-4">
@@ -45,9 +45,9 @@
                     <td>{{ item.observacion }}</td>
                     <td>{{ item.no_factura }}</td>
                     <td>{{ item.fecha_factura }}</td>
-                    <td>{{ item.sub_total }}</td>
-                    <td>{{ item.descuento }}</td>
-                    <td>{{ item.total }}</td>
+                    <td>{{ item.sub_total|floatformat:0|intcomma }}</td>
+                    <td>{{ item.descuento|floatformat:0|intcomma }}</td>
+                    <td>{{ item.total|floatformat:0|intcomma }}</td>
                     <td>
                         <a href="{% url 'compras_edit' item.id %}" class="btn btn-warning btn-circle" role="button"><i
                                 class="far fa-edit"></i></a>

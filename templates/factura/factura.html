@@ -1,4 +1,5 @@
 {% extends 'base/base.html' %}
+{% load humanize %}
 {% block content %}
 <form method="post" id="frmfactura">
     {% csrf_token %}
@@ -18,7 +19,7 @@
                             <div class="row">
                                 <div class="col-lg-1">No.</div>
                                 <div class="col-lg-4">
-                                    <input type="text" name="enc_id" id="enc_id" readonly class="form-control">
+                                    <input type="text" name="enc_id" id="enc_id" readonly class="form-control" value="{{ enc.id }}">
                                 </div>
                                 <div class="col-lg-2">Cliente:</div>
                                 <div class="col-lg-5 form-group">
@@ -35,7 +36,7 @@
                                     <div class="row">
                                         <div class="col-lg-2">Fecha:</div>
                                         <div class="col-lg-8 form-group">
-                                            <input type="text" name="fecha" id="fecha" class="form-control form-control-user" value="{{ enc.fecha|date:'Y-m-d' }}" readonly>
+                                            <input type="text" name="fecha" id="fecha" class="form-control form-control-user" value="{{ enc.fecha|date:'Y-m-d' }}">
                                         </div>
                                     </div>
                                 </div>
@@ -43,19 +44,34 @@
                                     <div class="row">
                                         <div class="col">Subtotal:</div>
                                         <div class="col">
-                                            <input type="text" name="sub_total" id="sub_total" class="form-control text-right" value="0.00" disabled>
+                                            <input type="text" class="form-control text-right"
+                                            {% if enc %} 
+                                                value="{{ enc.sub_total|floatformat:0|intcomma }}"
+                                            {% else %}
+                                                value="0"
+                                            {% endif %} disabled>
                                         </div>
                                     </div>
                                     <div class="row mt-1">
                                         <div class="col">Descuento:</div>
                                         <div class="col">
-                                            <input type="text" name="descuento" id="descuento" class="form-control text-right" value="0.00" disabled>
+                                            <input type="text" class="form-control text-right" 
+                                            {% if enc %} 
+                                                value="{{ enc.descuento|floatformat:0|intcomma }}"
+                                            {% else %}
+                                                value="0"
+                                            {% endif %}" disabled>
                                         </div>
                                     </div>
                                     <div class="row mt-1">
                                         <div class="col">Total:</div>
                                         <div class="col">
-                                            <input type="text" name="total" id="total" class="form-control text-right" value="0.00" disabled>
+                                            <input type="text" class="form-control text-right"
+                                            {% if enc %} 
+                                                value="{{ enc.total|floatformat:0|intcomma }}"
+                                            {% else %}
+                                                value="0"
+                                            {% endif %} disabled>
                                         </div>
                                     </div>
                                 </div>
@@ -68,7 +84,7 @@
                         <div class="row">
                             <div class="col-lg-1">Cod.</div>
                             <div class="col-lg-3">
-                                <input type="text" name="codigo" id="codigo" placeholder="Cód. Producto" class="form-control">
+                                <input type="text" name="codigo" id="codigo" placeholder="Cod. Producto" class="form-control">
                             </div>
                             <div class="col-lg-7">
                                 <input type="text" name="descripcion" id="descripcion" placeholder="Descripción" class="form-control" disabled>
@@ -128,11 +144,11 @@
                                     <tr>
                                         <td>{{ item.producto.codigo }}</td>
                                         <td>{{ item.producto }}</td>
-                                        <td>{{ item.precio }}</td>
+                                        <td>{{ item.precio|floatformat:0|intcomma }}</td>
                                         <td>{{ item.cantidad }}</td>
-                                        <td>{{ item.sub_total }}</td>
+                                        <td>{{ item.sub_total|floatformat:0|intcomma }}</td>
                                         <td>{{ item.descuento }}</td>
-                                        <td>{{ item.total }}</td>
+                                        <td>{{ item.total|floatformat:0|intcomma }}</td>
                                         <td>
                                             <button type="button" class="btn btn-warning btn-circle" onclick="borrar_detalle({{ item.id }})"><i class="fas fa-history"></i></button>
                                         </td>
