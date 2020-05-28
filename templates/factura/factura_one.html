@@ -1,0 +1,100 @@
+{% load static %}
+{% load humanize %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Listado de Compras</title>
+    <link rel="stylesheet" href="{% static 'css/recibo.css' %}">
+    <style type="text/css">
+        @page {
+            width: 58mm;
+            size: auto;
+            margin: 0mm;
+        }
+    </style>
+</head>
+
+<body onload="window.print();window.close()" class="receipt">
+    <center>
+        <strong class="text-center">Tienda DEBSCONSULTORES</strong>
+        <br>
+        <small>Dirección: Cl 110 #7 - 30</small>
+        <br>
+        <small>Telefono: 4232051</small>
+        <br>
+    </center>
+    <small>
+        <br>
+        <strong>Factura No.</strong>&nbsp;&nbsp;{{enc.id}}&nbsp;&nbsp;
+        <strong>Fecha factura:</strong>&nbsp;&nbsp;{{enc.fecha|date:"d/m/Y"}}&nbsp;&nbsp;
+        <strong>Cliente:</strong>&nbsp;&nbsp;{{enc.cliente}}
+        <br>
+    </small>
+    <table class="table table-condensed">
+        <thead>
+            <th>Producto</th>
+            <th>Código</th>
+            <th align="center">Cant.</th>
+            <th align="center">Precio. Und.</th>
+            <th align="center">Sub Total</th>
+            <th align="center">Descuento</th>
+            <th align="center">Total</th>
+        </thead>
+        <tbody>
+            {% for obj in detalle %}
+            <tr>
+                <td align="center">{{obj.producto}}</td>
+                <td align="center">{{obj.producto.codigo}}</td>
+                <td align="center">{{obj.cantidad}}</td>
+                <td align="center">{{obj.precio}}</td>
+                <td align="center">{{obj.sub_total|floatformat:0|intcomma}}</td>
+                <td align="center">{{obj.descuento|floatformat:0|intcomma}}</td>
+                <td align="center">{{obj.total|floatformat:0|intcomma}}</td>
+            </tr>
+            <tr>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <div class="col-1"></div>
+    <div class="totales">
+        <div class="pull-right">
+            <table class="table-responsive dt-responsive nowrap">
+                <thead>
+                    <th colspan="2">Totales</th>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Sub Total:</td>
+                        <td align="right">{{enc.sub_total|floatformat:0|intcomma}}</td>
+                    </tr>
+                    <tr>
+                        <td>Descuento:</td>
+                        <td align="right">{{enc.descuento|floatformat:0|intcomma}}</td>
+                    </tr>
+                    <tr>
+                        <td>Total:</td>
+                        <td align="right"><strong>{{enc.total|floatformat:0|intcomma}}</strong></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="col-1"></div>
+    <div class="row" style="clear:both;">
+        <small class="pie">
+            <br><br>
+            <center>
+                Creada por: {{enc.usuario_creacion|title}} - Fecha: {{enc.fecha_creacion|date:"d/m/Y"}}
+                <br>
+                <i>&copy;&reg;<strong>Stephen Alarcón - SCF DJango</strong> - slj212885@gmail.com</i>
+            </center>
+        </small>
+    </div>
+</body>
+
+</html>

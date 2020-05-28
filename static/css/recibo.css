@@ -1,0 +1,99 @@
+.table td .numero{
+    text-align: center;
+}
+body.receipt .t{
+    width: 20mm;
+}
+@media print and (max-width: 10cm){}
+@page{
+    margin: 15;
+}
+@media print{
+    max-width: 10cm;
+}
+@media screen{
+    .body{
+        background: #e0e0e0;
+    }
+    .sheet{
+        background: white;
+        box-shadow: 0 .5mm 2mm rgba(0, 0, 0, .3);
+        margin: 5mm;
+    }
+}
+.receipt{
+    font: 12px, sans-serif, arial;
+}
+body{
+    font-family: serif;
+}
+h1{
+    font-family: 'Tangerine', cursive;
+    font-size: 40pt;
+    line-height: 18mm;
+    margin: 0;
+}
+h2, h3{
+    font-family: 'Tangerine', cursive;
+    font-size: 24pt;
+    line-height: 7mm;
+}
+h4{
+    font-size: 32pt;
+    line-height: 14mm;
+}
+h2 + p{
+    font-size: 18pt;
+    line-height: 7mm;
+}
+h3 + p{
+    font-size: 14pt;
+    line-height: 7mm;
+}
+li{
+    font-size: 11pt;
+    line-height: 5mm;
+}
+h1 + ul{
+    margin: 2mm 0 5mm;
+}
+h2, h3{
+    margin: 0 3mm 3mm 0;
+    float: left;
+}
+h2 + p,
+h3 + p{
+    margin: 0 0 3mm 50mm;
+}
+h4 + ul{
+    margin: 5mm 0 0 50mm;
+}
+article{
+    border: 4px double black;
+    padding: 5mm 10mm;
+    border-radius: 3mm;
+}
+.table-condensed>thead>tr>th,
+.table-condensed>tbody>tr>th,
+.table-condensed>tfoot>tr>th,
+.table-condensed>thead>tr>td,
+.table-condensed>tbody>tr>td,
+.table-condensed>tfoot>tr>td{
+    padding: 0px 2em;
+    font-size: 14px;
+}
+.table-condensed, .table-sm{
+    font: 8px, serif, arial;
+}
+th{
+    font-size: 10pt;
+}
+td{
+    font-size: 10pt;
+}
+.totales{
+    float: right;
+}
+.pie{
+    font-size: 14px;
+}
