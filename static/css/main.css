@@ -1,0 +1,7 @@
+label .asteriskField{
+    display: none;
+}
+
+.form-group label{
+    font-weight: bold;
+}

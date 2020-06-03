@@ -1,20 +1,14 @@
 from django import forms
 from .models import Proveedor, ComprasEnc
+from bootstrap_modal_forms.forms import BSModalForm
 
-class ProveedorForm(forms.ModelForm):
+class ProveedorForm(BSModalForm):
     email = forms.EmailField(max_length=254)
     class Meta:
         model = Proveedor
         exclude = ['usuario_creacion', 'fecha_creacion', 'usuario_modificacion', 'fecha_modificacion', 'estado']
         widget = {'descripcion': forms.TextInput()}
 
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        for field in iter(self.fields):
-            self.fields[field].widget.attrs.update({
-                'class': 'form-control'
-            })
 
 
 class ComprasEncForm(forms.ModelForm):

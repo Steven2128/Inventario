@@ -1,40 +1,72 @@
-<div class="modal-dialog modal-lg">
-    <div class="modal-content">
+{% load crispy_forms_tags %}
+<form method="post">
+    {% csrf_token %}
+    <div class="modal-header">
         {% if object %}
-        <form action="{% url 'producto_edit' object.pk %}" method="post" class="form-inline">
+        <h5 class="modal-title">Editar Proveedor <strong>{{ object.descripcion }}</strong></h5>
         {% else %}
-        <form action="{% url 'producto_new' %}" method="post" class="form-inline">
+        <h5 class="modal-title">Crear nuevo Proveedor</h5>
         {% endif %}
-            {% csrf_token %}
-            <div class="col-xl-12 col-md-12 mb-12">
-                {% if object %}
-                <div class="card border-left-warning shadow h-100 py-2">
-                {% else %}
-                <div class="card border-left-success shadow h-100 py-2">
-                {% endif %}
-                <div class="card-body">
-                        <div class="row no-gutters align-items-center">
-                            <div class="col mr-2">
-                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                    {% if object %}Editar{% else %}Nuevo{% endif %} Producto</div>
-                                <div class="dropdown-divider"></div>
-                                <div class="row">
-                                    {{ form.as_p }}
-                                </div>
-                                <div class="dropdown-divider"></div>
-                                <div class="row">
-                                    <div class="col">
-                                        <button type="submit" class="btn btn-success"><span
-                                                class="fa fa-save mr-1"></span>Guardar</button>
-                                        <button type="button" class="btn btn-danger" onclick="cerrar_modal()"><span
-                                        class="fa fa-undo mr-1"></span>Cancelar</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="col">
+                <div class="form-group{% if form.descripcion.errors %} invalid{% endif %}">
+                    {{ form.descripcion|as_crispy_field }}
                 </div>
             </div>
-        </form>
+            <div class="col">
+                <div class="form-group{% if form.codigo.errors %} invalid{% endif %}">
+                    {{ form.codigo|as_crispy_field }}
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group{% if form.codigo_barra.errors %} invalid{% endif %}">
+                    {{ form.codigo_barra|as_crispy_field }}
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="form-group{% if form.precio.errors %} invalid{% endif %}">
+                    {{ form.precio|as_crispy_field }}
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group{% if form.existencia.errors %} invalid{% endif %}">
+                    {{ form.existencia|as_crispy_field }}
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group{% if form.ultima_compra.errors %} invalid{% endif %}">
+                    {{ form.ultima_compra|as_crispy_field }}
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="form-group{% if form.subcategoria.errors %} invalid{% endif %}">
+                    {{ form.subcategoria|as_crispy_field }}
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group{% if form.marca.errors %} invalid{% endif %}">
+                    {{ form.marca|as_crispy_field }}
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group{% if form.unidad_medida.errors %} invalid{% endif %}">
+                    {{ form.unidad_medida|as_crispy_field }}
+                </div>
+            </div>
+        </div>
+        
     </div>
-</div>
+    <div class="modal-footer">
+        <button type="button" class="submit-btn btn btn-success"><span class="fa fa-save mr-1"></span>Guardar</button>
+        <button type="button" class="btn btn-danger" data-dismiss="modal"><span class="fa fa-undo mr-1"></span>Cancelar</button>
+    </div>
+</form>

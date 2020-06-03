@@ -10,6 +10,8 @@ from django.http import HttpResponse
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.contrib.auth.decorators import login_required, permission_required
 
+from bootstrap_modal_forms.generic import BSModalCreateView, BSModalUpdateView
+
 from .models import Proveedor, ComprasEnc, ComprasDet
 from .forms import ProveedorForm, ComprasEncForm
 from inv.models import Producto
@@ -21,7 +23,7 @@ class ProveedorView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     context_object_name = 'obj'
 
 
-class ProveedorNew(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
+class ProveedorNew(LoginRequiredMixin, PermissionRequiredMixin, BSModalCreateView):
     permission_required = 'cmp.add_proveedor'
     model = Proveedor
     template_name = 'cmp/proveedor_form.html'
@@ -33,7 +35,7 @@ class ProveedorNew(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
         return super().form_valid(form)
 
 
-class ProveedorEdit(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
+class ProveedorEdit(LoginRequiredMixin, PermissionRequiredMixin, BSModalUpdateView):
     permission_required = 'cmp.change_proveedor'
     model = Proveedor
     template_name = 'cmp/proveedor_form.html'

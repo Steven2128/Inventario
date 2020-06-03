@@ -7,6 +7,8 @@ from django.http import HttpResponse
 
 from django.contrib.messages.views import SuccessMessageMixin
 
+from bootstrap_modal_forms.generic import BSModalCreateView, BSModalUpdateView
+
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 
@@ -193,7 +195,7 @@ class ProductoView(LoginRequiredMixin, PermissionRequiredMixin, generic.ListView
     context_object_name = 'obj'
 
 
-class ProductoNew(LoginRequiredMixin, PermissionRequiredMixin, SuccessMessageMixin, generic.CreateView):
+class ProductoNew(LoginRequiredMixin, PermissionRequiredMixin, BSModalCreateView):
     permission_required = 'inv.add_producto'
     model = Producto
     template_name = 'inv/producto_form.html'
@@ -206,7 +208,7 @@ class ProductoNew(LoginRequiredMixin, PermissionRequiredMixin, SuccessMessageMix
         return super().form_valid(form)
 
 
-class ProductoEdit(LoginRequiredMixin, PermissionRequiredMixin, SuccessMessageMixin, generic.UpdateView):
+class ProductoEdit(LoginRequiredMixin, PermissionRequiredMixin, BSModalUpdateView):
     permission_required = 'inv.change_producto'
     model = Producto
     template_name = 'inv/producto_form.html'
@@ -215,7 +217,10 @@ class ProductoEdit(LoginRequiredMixin, PermissionRequiredMixin, SuccessMessageMi
     success_url = reverse_lazy('producto_list')
 
     def form_valid(self, form):
+        self.object = self.get_object()
         form.instance.usuario_modificacion = self.request.user.id
+        form.instance.existencia = self.object.existencia
+        form.instance.ultima_compra = self.object.ultima_compra
         return super().form_valid(form)
 
 @login_required

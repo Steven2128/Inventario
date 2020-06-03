@@ -13,7 +13,7 @@
             </a>
             <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
                 <div class="dropdown-header">Acciones</div>
-                <a class="dropdown-item" href="#" onclick="abrir_modal('{% url 'proveedor_new' %}')"><i class="far fa-calendar-plus"></i>Nuevo</a>
+                <a href="#" class="create-proveedor dropdown-item"><i class="far fa-calendar-plus mr-1"></i>Nuevo</a>
             </div>
         </div>
     </div>
@@ -46,7 +46,7 @@
                     <td>{{ item.email }}</td>
                     <td>{{ item.estado|yesno:"Activo, Inactivo" }}</td>
                     <td>
-                        <a href="#" onclick="abrir_modal('{% url 'proveedor_edit' item.id %}')" class="btn btn-warning btn-circle" role="button"><i
+                        <a href="#" class="update-proveedor btn btn-warning btn-circle" data-id="{% url 'proveedor_edit' item.id %}"><i
                                 class="far fa-edit"></i></a>
                         {% if item.estado == True %}
                             <a href="{% url 'proveedor_inactivar' item.id %}" class="btn btn-danger btn-circle" role="button">
@@ -88,6 +88,13 @@
                 },
             }
         });
+
+        $(".create-proveedor").modalForm({
+            formURL: "{% url 'proveedor_new' %}"
+        });
     });
+        $(".update-proveedor").each(function () {
+            $(this).modalForm({formURL: $(this).data('id')});
+        });
 </script>
 {% endblock js %}

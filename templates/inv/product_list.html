@@ -1,6 +1,7 @@
 {% extends 'base/base.html' %}
 
 {% block content %}
+<div class="modal fade" id="popup"></div>
 <!-- Dropdown Card Example -->
 <div class="card shadow mb-4">
     <!-- Card Header - Dropdown -->
@@ -13,7 +14,7 @@
             </a>
             <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
                 <div class="dropdown-header">Acciones</div>
-                <a class="dropdown-item" onclick="abrir_modal('{% url 'producto_new' %}')" href="#"><i class="far fa-calendar-plus"></i>Nuevo</a>
+                <a class="create-producto dropdown-item" href="#"><i class="far fa-calendar-plus"></i>Nuevo</a>
                 <a class="dropdown-item" href="#">Another action</a>
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="#">Something else here</a>
@@ -51,7 +52,7 @@
                     <td>{{ item.unidad_medida }}</td>
                     <td>{{ item.estado|yesno:"Activo, Inactivo" }}</td>
                     <td>
-                        <a href="#" onclick="abrir_modal('{% url 'producto_edit' item.id %}')" class="btn btn-warning btn-circle" role="button"><i
+                        <a href="#" class="update-producto btn btn-warning btn-circle" role="button" data-id="{% url 'producto_edit' item.id %}"><i
                                 class="far fa-edit"></i></a>
                         {% if item.estado == True %}
                             <a href="{% url 'producto_inactivar' item.id %}"  class="btn btn-danger btn-circle" role="button">
@@ -92,6 +93,12 @@
                     next: "Siguiente",
                 },
             }
+        });
+        $(".create-producto").modalForm({
+            formURL: "{% url 'producto_new' %}"
+        });
+        $(".update-producto").each(function () {
+            $(this).modalForm({formURL: $(this).data('id')});
         });
     });
 </script>
