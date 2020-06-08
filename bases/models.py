@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django_userforeignkey.models.fields import UserForeignKey
+from PIL import Image
 
 class ClaseModelo(models.Model):
     estado = models.BooleanField(default=True)
@@ -22,3 +23,20 @@ class ClaseModelo2(models.Model):
 
     class Meta:
         abstract = True
+
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    image = models.ImageField(default= 'sample.jpg', upload_to='profile_pics')
+
+    def __str__(self):
+        return f'{self.user.username} Profile'
+
+    def save(self):
+        super().save()
+
+        image = Image.open(self.image.path)
+        #To resize the profile image
+        if image.height > 400 or image.width > 400:
+            output_size = (400, 400)
+            image.thumbnail(output_size)
+            image.save(self.image.path)

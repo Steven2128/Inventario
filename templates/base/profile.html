@@ -1,0 +1,45 @@
+{% extends 'base/base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+<form action="" method="post" class="form-inline" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="col-lg-12 col-xl-9">
+        <div class="card border-left-warning shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                            Editar Perfil <strong>{{ request.user.username }}</strong></div>
+                        <div class="dropdown-divider"></div>
+                        <div class="row mb-2">
+                            {{ u_form.first_name|as_crispy_field }}
+                        </div>
+                        <div class="row mb-2">
+                            {{ u_form.last_name|as_crispy_field }}
+                        </div>
+                        <div class="row mb-2">
+                            {{ u_form.username|as_crispy_field }}
+                        </div>
+                        <div class="row mb-2">
+                            {{ u_form.email|as_crispy_field }}
+                        </div>
+                        <div class="row mb-2">
+                            <input class="form-control" type="file" name="image" id="id_image">
+                        </div>
+                        <div class="dropdown-divider"></div>
+                        <div class="row">
+                            <div class="col">
+                                <button type="submit" class="btn btn-success"><span
+                                        class="fa fa-save mr-1"></span>Guardar</button>
+                                <a href="{% url 'categoria_list' %}" class="btn btn-danger"><span
+                                        class="fa fa-undo mr-1"></span>Cancelar</a>
+                            </div>
+                        </div>
+                    </div>
+                    <img class="img-profile rounded-circle" width="300" height="300" {% if user.profile %} src="{{ user.profile.image.url }}" alt="{{ user.profile.image }}" {% else %} src="/media/sample.jpg" alt="sample.jpg" {% endif %}>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+{% endblock content %}

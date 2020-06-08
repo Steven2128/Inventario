@@ -3,9 +3,9 @@
     {% csrf_token %}
     <div class="modal-header">
         {% if object %}
-        <h5 class="modal-title">Editar Proveedor <strong>{{ object.descripcion }}</strong></h5>
+        <h5 class="modal-title">Editar Cliente <strong>{{ object.descripcion }}</strong></h5>
         {% else %}
-        <h5 class="modal-title">Crear nuevo Proveedor</h5>
+        <h5 class="modal-title">Crear nuevo Cliente</h5>
         {% endif %}
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
