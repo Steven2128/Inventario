@@ -1,1 +1,149 @@
 {% extends 'base/base.html' %}
+{% load humanize %}
+{% block content %}
+<!-- Page Heading -->
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0 text-gray-800">Panel de Control</h1>
+</div>
+
+<!-- Content Row -->
+<div class="row">
+
+    <!-- Earnings (Monthly) Card Example -->
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-primary shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center mb-2">
+                    <div class="col">
+                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Inventario Neto</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">$
+                            {% if producto.inventario_neto.total is not None%}
+                            {{producto.inventario_neto.total|floatformat:0|intcomma}}
+                            {% else %}
+                            0
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-tags fa-2x text-primary"></i>
+                    </div>
+                </div>
+                <div class="border-bottom-primary"></div>
+                <small class="text-lg text-primary">Productos en stock: {{producto.productos_stock}}</small>
+            </div>
+        </div>
+    </div>
+
+    <!-- Earnings (Monthly) Card Example -->
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-success shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col">
+                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Ventas {{ahora|date:"Y"}}</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">$
+                            {% if ventas.factura_neto.total__sum is not None%}
+                            {{ventas.factura_neto.total__sum|floatformat:0|intcomma}}
+                            {% else %}
+                            0
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="far fa-money-bill-alt fa-3x text-success"></i>
+                    </div>
+                </div>
+                <div class="border-bottom-success mt-1"></div>
+                <small class="text-lg text-success">Facturas emitidas: {{ventas.facturas_emitidas}}</small>
+            </div>
+        </div>
+    </div>
+
+    <!-- Earnings (Monthly) Card Example -->
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-info shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col">
+                        <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Compras {{ahora|date:"Y"}}</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">$
+                        {% if compras.compra_neto.total__sum is not None%}
+                        {{compras.compra_neto.total__sum|floatformat:0|intcomma}}
+                        {% else %}
+                        0
+                        {% endif %}
+                    </div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-shopping-cart fa-3x text-info"></i>
+                    </div>
+                </div>
+                <div class="border-bottom-info"></div>
+                <small class="text-lg text-info">Facturas emitidas: {{compras.compras_emitidas}}</small>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pending Requests Card Example -->
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-warning shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Clientes</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{clientes}}</div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-users fa-3x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Content Row -->
+
+<div class="row">
+
+    <!-- Area Chart -->
+    <div class="col-xl-8 col-lg-7">
+        <div class="card shadow mb-4">
+            <!-- Card Header - Dropdown -->
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary">Compras & Ventas {{ahora|date:"Y"}}</h6>
+            </div>
+            <!-- Card Body -->
+            <div class="card-body">
+                <div class="chart-area">
+                    <canvas id="myAreaChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pie Chart -->
+    <div class="col-xl-4 col-lg-5">
+        <div class="card shadow mb-4">
+            <!-- Card Header - Dropdown -->
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary">Productos por SubCategoría</h6>
+            </div>
+            <!-- Card Body -->
+            <div class="card-body">
+                <div class="chart-pie pt-4 pb-2">
+                    <canvas id="myPieChart"></canvas>
+                </div>
+                <div class="mt-4 text-center small">
+                    {% for label in labels_subcategorias %}
+                    <span class="mr-2">
+                        <i class="fas fa-circle text-{{forloop.counter}}"></i>{{label}}
+                    </span>
+                    {% endfor %}   
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content%}

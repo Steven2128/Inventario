@@ -1,4 +1,5 @@
 {% extends 'base/base.html' %}
+{% load humanize %}
 {% block css %}
 <style>
     #id_sub_total_detalle, #id_total_detalle,
@@ -168,10 +169,10 @@
                                                 <tr>
                                                     <td>{{ item.producto }}</td>
                                                     <td>{{ item.cantidad }}</td>
-                                                    <td>{{ item.precio_prv }}</td>
-                                                    <td>{{ item.sub_total }}</td>
-                                                    <td>{{ item.descuento }}</td>
-                                                    <td>{{ item.total }}</td>
+                                                    <td>{{ item.precio_prv|floatformat:0|intcomma }}</td>
+                                                    <td>{{ item.sub_total|floatformat:0|intcomma }}</td>
+                                                    <td>{{ item.descuento|floatformat:0|intcomma }}</td>
+                                                    <td>{{ item.total|floatformat:0|intcomma }}</td>
                                                     <td>
                                                         <button type="button" class="btn btn-danger btn-circle" onclick="return abrir_modal('{% url 'compras_del' encabezado.pk item.id %}')"><i class="fas fa-trash-alt"></i></button>
                                                     </td>

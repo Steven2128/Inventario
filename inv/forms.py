@@ -3,9 +3,9 @@ from bootstrap_modal_forms.forms import BSModalForm
 from .models import Categoria, SubCategoria, Marca, UnidadMedida, Producto
 
 class CategoriaForm(forms.ModelForm):
-    class Meta:
+     class Meta:
         model = Categoria
-        fields = '__all__'
+        fields = ['descripcion']
         labels = {
             'descripcion': ''
         }

@@ -8,8 +8,11 @@ from django.contrib.auth.decorators import login_required, permission_required
 from django.core import serializers
 from django.http import HttpResponse
 
+from bootstrap_modal_forms.generic import BSModalCreateView, BSModalUpdateView
+
 from django.views.generic import CreateView, UpdateView, DeleteView, ListView
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.contrib.messages.views import SuccessMessageMixin
 from bases.views import VistaBaseCreate, VistaBaseEdit
 
 from django.contrib.auth import authenticate
@@ -28,12 +31,16 @@ class ClienteView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     context_object_name = 'obj'
 
 
-class ClienteNew(VistaBaseCreate):
+class ClienteNew(LoginRequiredMixin, PermissionRequiredMixin, BSModalCreateView):
     permission_required = 'factura.add_cliente'
     model = Cliente
     template_name = 'factura/cliente_form.html'
     form_class = ClienteForm
     success_url = reverse_lazy('cliente_list')
+
+    def form_valid(self, form):
+        form.instance.usuario_creacion = self.request.user
+        return super().form_valid(form)
 
 
 class ClienteEdit(VistaBaseEdit):
